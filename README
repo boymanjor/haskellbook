@@ -3,5 +3,6 @@ is Haskell Programming from first principles [1]. This repository holds my notes
 and exercises from the book.
 
 Chapter 1: All You Need is Lambda
+Chapter 2: Hello, Haskell!
 
 [1]: http://haskellbook.com/
