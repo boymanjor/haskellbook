@@ -6,9 +6,10 @@ Chapter 2: Hello, Haskell!
 
 Haskell code can be written directly into the GHCi REPL (read-eval-print-loop)
 or stored in source files. The source files can be compiled using the GHCi
-compiler or loaded into the REPL. The Haskell Tool Stack `stack` is used to
-initiate: the REPL, code compliation, and many other tools when writing
-code.
+compiler or loaded into the REPL. The REPL allows types and other information
+about expression to be queried with the `:type` and `:info` commands. The Haskell
+Tool Stack `stack` is used to initiate: the REPL, code compliation, and many other
+tools when writing code.
 
 A Haskell program can be thought of one as single expression composed of many,
 smaller expressions. A declaration binds an expresson to a variable name. These
@@ -27,31 +28,20 @@ Function declarations consist of:
 - an equal sign
 - function body (an expression that can be evaluated)
 
-Expression evaluation is the process of reducing the expression to its simplest
-form. Haskell uses "lazy" or "non-strict" evaluation. This means an expression
+Evaluation is the process of reducing the expression to its simplest form.
+Haskell uses "lazy" or "non-strict" evaluation. This means an expression
 is not evaluated until absolutely necessary. Values are in their simplest form
 but function applications are reducible. Like in lambda calculus, function
 application is reduction/evaluation.
 
-Haskell functions default to prefix notation. Operators are functions which
-can be used in infix style. Some functions can be used as with infix style
-by surrounding them by backticks, e.g. `div` 12 3. All operators can be used
-with prefix style by surrounding them with parenthesis, e.g. (+) 1 2.
-
-
--- draft --
-Operators also have associativity and precedence. These follow similar rules
-to traditional math operations. Parenthesis can be used to group expressions
-and manipulate operator precedence. The "$" operator can be used in place of
-parenthesis and is right associative.
-
-The REPL allows types and other information about expression to be queried
-with the `:type` and `:info` commands.
--- end draft --
 
 -- Terminology & Concepts --
 
 :: - This operator is used to define type signatures. It means "has the type."
+
+$ - This operator everything to the right of it to be evaluated first. It can
+be used to delay function application. The "$" operator can be used multiple
+times within a single expression.
 
 Declaration - Top-level bindings that allow us to name expressions.
 
@@ -64,4 +54,46 @@ Redexes - Reducible expressions. When an expression cannot be reduced anymore it
 is in "normal form." This directly translates to the beta normal form of the
 lambda calculus.
 
+Negation - Using the (-) operator for number negation is syntatic sugar.
+The `negate` function is the proper way to negate numeric values.
+
+Let vs. Where - Both are used to create local, variable bindings. `let` is an
+expression and can be used anywhere an expression can be used. `where` is a
+declaration and is bound to a surrounding syntatic construct.
+
+Operators - Operators are functions which can be used in infix style. All operators
+can be used with prefix style by surrounding them with parenthesis, e.g. (+) 1 2.
+Operators also have associativity and precedence. These follow similar rules to
+traditional math operations. Parenthesis can be used to group expressions and
+manipulate operator precedence.
+
+Partial Application - A function which takes multiple arguments can have some
+of its arguments applied. This will result in a new function being returned
+which is "partially" applied and will accept the remaining arguments.
+
+Scope - Scope is the area of source code where a particular binding of a
+variable applies. Haskell is lexically scoped, which means scoping is dependent
+upon source code location.
+
+Sectioning - The partial application of infix operators to one of their arguments.
+This can be used to pass around partially applied functions. E.g. (+) 1 2 can be
+written as (+1) 2. We could also declare an expression x = (+1) and apply x to
+any value we wish to be the second operand.
+
+Syntax - The grammar and structure of the text we use to write code.
+
+Syntatic sugar - Syntatic sugar is a syntax which allows for code to be written in
+a more concise and/or readable manner. It does not change the semantics (meaning)
+of the code.
+
+Whitespace - Whitespace matters in Haskell. Specifically code indentation.
+The basic rule is that code that is a part of an expression should be
+indented below the beginning of the expression. This applies even if the
+expression begins mid-line.
+
 -- Follow-up Resources --
+
+1. Haskell wiki article on Let vs. Where
+   https://wiki.haskell.org/Let_vs._Where
+
+2. How to desugar Haskell code; Gabriel Gonzalez
