@@ -1,8 +1,8 @@
 Chapter 1: All You Need is Lambda
 
 "Even the greatest mathematicians, the ones that we would put into our mythology
-of great mathematicians, had to do a great deal of leg work in order to get to the
-solution in the end." - Daniel Tammett
+of great mathematicians, had to do a great deal of leg work in order to get to
+the solution in the end." - Daniel Tammett
 
 -- Summary --
 
@@ -12,22 +12,93 @@ This means it can determine what problems, or class of problems, can and cannot
 be solved. It is based on function abstraction & application using variable binding
 & substitution. All functional programming languages are based on the lambda calculus.
 
-The essencse of functional programming is that programs are a combination of expressions.
-An expression consists of: concrete values, variables, and functions. All FP languages
-include features that are translatable to the lambda calculus. When a language includes
-features that cannot be expressed in terms of the lambda calculus it is impure. Haskell
-is a pure functional language.
+The essencse of functional programming is that programs are a combination of
+expressions. An expression consists of: concrete values, variables, and functions.
+All FP languages include features that are translatable to the lambda calculus.
+When a language includes features that cannot be expressed in terms of the lambda
+calculus it is impure. Haskell is a pure functional language.
 
-The lambda calculus has three basic components (lambda terms): expressions, variables,
-and abstractions. This maps well to FP expressions. Abstractions -> functions,
-variables -> variables.
+The lambda calculus has three basic components (lambda terms): expressions,
+variables, and abstractions. This maps well to FP expressions.
+Abstractions -> functions, variables -> variables. Expressions can be thought
+of as combinations of variables and abstractions. The simplest expression is a
+single variable. In the lambda calculus variables are simply names for potential
+inputs to functions. They do not represent any value.
 
-Expressions can be thought of as combinations of variables and abstractions. The simplest
-expression is a single variable. In the lambda calculus variables are simply names for
-potential inputs to functions. They do not represent any value.
+A function is split into two parts: the head and the body. The head is denoted by
+the 'λ' symbol followed by a variable. The body is an expression. The variable in
+the head is a parameter and binds all instances of the same variable in the body.
+This means that when the function is applied to an argument, each instance of that
+variable in the body will be replaced by the argument.
 
-A function is split into two parts: the head and the body. The head is denoted by the
-"λ" symbol followed by a variable. The body is an expression. The variable in the head
-is a parameter and binds all instances of the same variable in the body. This means that
-when the function is applied to an argument, each instance of that variable in the body
-will be replaced by the argument.
+-- Terminology & Concepts --
+
+Abstracton - A lambda abstraction is an anonymous function or lambda term i.e.
+(λx.x+1). The head of the expresson 'λx' generalizes the body 'x+1', allowing the
+expression to be applied to different arguments. When an argument is applied, all
+instances of the variable 'x' will be substituted with the input argument. The
+parts of the expression that will remain constant are those not bounded by the
+variable in the head i.e. '+1'.
+
+Application - This is how evaluation/reduction of lambdas is achieved. The process
+involves substituting an argument with all instances of bound variables in the body of
+the lambda.
+
+Alpha Equivalence - The variables bound in a specific lambda expression have no semantic
+meaning. The are simply used as names for the parameters which will be substitued for
+arguments upon applicaiton. This means that certain lambdas are functionally equivalent,
+regardless of the variables used in their expressions. These lambdas are said to be
+"alpha equivalent."
+
+Beta Reduction - Beta reduction is the process of applying a lambda expression to
+an argument. This is also known as evaluating, or simplifying the expression. The
+head of the lambda is removed and all instances of the parameter, in the body, are
+replace with the argument. The process is repeated until you can no longer apply
+a lambda to an argument. Once completed, the expression is in "Beta Noraml Form."
+This process represents computation in the lambda calculus. Beta reduction is left
+associative, meaning grouping terms should be handled by starting with the left-most
+positioned terms.
+
+Combinator - A combinator is a lambda expression that does not contain any free
+variables.a
+
+Currying - Each lambda can only bind one parameter and apply itself to one argument.
+Functions that require more than one argument really have nested heads i.e.
+(λxy.yx) -> (λx.(λy.yx)). The process of translating a lambda from accepting
+multiple args to multiple, nested lambdas which accept one argument a piece
+is known as currying. Itwas discovered by Moses Schönfinkel and later rediscovered
+and named after Haskell Curry.
+
+Divergence - The reduction of lambda expressions should converge to a beta normal
+form. However, not all reducible, lambda expressions converge. These terms are
+said to diverge because their reduction never terminates. Re: programming - a
+diverging expression represents an expression that cannot be solved.
+
+Function - A function is a mapping of a set of possible inputs to a set of possible
+outputs. The set of possible inputs is called the "domain" and the set of possible
+outputs is called the "codomain." The "image" is the subset of the codomain that
+contains outputs of the function related to different inputs. Multiple members of
+the domain can map to the same member of the codomain/image.
+
+Free Variable - A free variable is a variable found in the body of a lambda which
+is not bound by a paramter in the head.
+
+Purity - A pure, FP language is a language which only includes features that
+are translatable to lambda expressions. Haskell is a pure FP language.
+
+Referential Transparency - A function is referentially transparent when its
+application to a given argument will always result in the same result. Such a
+function, when applied to an argument, can be replaced by the result. These
+types of functions are commonly called "pure" functions. A function which
+results in side effects is not referentially transparent.
+
+-- Follow-up Resources --
+
+1. Raul Rojas. A Tutorial Introduction to the Lambda Calculus
+   http://www.inf.fu-berlin.de/lehre/WS03/alpi/lambda.pdf
+
+2. Henk Barendregt; Erik Barendsen. Introduction to Lambda Calculus
+   http://www.cse.chalmers.se/research/group/logic/TypesSS05/Extra/geuvers.pdf
+
+3. Jean-Yves Girard; P. Tayler; Yves Lafon. Proofs and Types
+   http://www.paultaylor.eu/stable/prot.pdf
