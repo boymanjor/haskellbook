@@ -1,0 +1,33 @@
+Chapter 1: All You Need is Lambda
+
+"Even the greatest mathematicians, the ones that we would put into our mythology
+of great mathematicians, had to do a great deal of leg work in order to get to the
+solution in the end." - Daniel Tammett
+
+-- Summary --
+
+The lambda calculus is a model of computation devised in the 1930s by Alonzo
+Church. Like turing machines, it formalizes the concept of effective computability.
+This means it can determine what problems, or class of problems, can and cannot
+be solved. It is based on function abstraction & application using variable binding
+& substitution. All functional programming languages are based on the lambda calculus.
+
+The essencse of functional programming is that programs are a combination of expressions.
+An expression consists of: concrete values, variables, and functions. All FP languages
+include features that are translatable to the lambda calculus. When a language includes
+features that cannot be expressed in terms of the lambda calculus it is impure. Haskell
+is a pure functional language.
+
+The lambda calculus has three basic components (lambda terms): expressions, variables,
+and abstractions. This maps well to FP expressions. Abstractions -> functions,
+variables -> variables.
+
+Expressions can be thought of as combinations of variables and abstractions. The simplest
+expression is a single variable. In the lambda calculus variables are simply names for
+potential inputs to functions. They do not represent any value.
+
+A function is split into two parts: the head and the body. The head is denoted by the
+"λ" symbol followed by a variable. The body is an expression. The variable in the head
+is a parameter and binds all instances of the same variable in the body. This means that
+when the function is applied to an argument, each instance of that variable in the body
+will be replaced by the argument.
