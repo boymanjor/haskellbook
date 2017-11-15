@@ -4,6 +4,48 @@ Chapter 2: Hello, Haskell!
 
 -- Summary --
 
+Haskell code can be written directly into the GHCi REPL (read-eval-print-loop)
+or stored in source files. The source files can be compiled using the GHCi
+compiler or loaded into the REPL. The Haskell Tool Stack `stack` is used to
+initiate: the REPL, code compliation, and many other tools when writing
+code.
+
+A Haskell program can be thought of one as single expression composed of many,
+smaller expressions. A declaration binds an expresson to a variable name. These
+expression can be reduced/evaluted to a normal form. This can also be thought
+of as 'normalizing' or 'executing' an expression.
+
+Functions are the most basic unit of a Haskell program. Like in lambda calculus,
+each function binds one parameter and can be applied to one argument. Syntatic sugar
+is used to declare functions which are applied to multiple arguments. These functions
+are really a series of nested functions which accept one argument and return a function,
+which accepts the next argument in line.
+
+Function declarations consist of:
+- function name
+- list of parameters (syntatic sugar allows for more than one)
+- an equal sign
+- function body (an expression that can be evaluated)
+
+Expression evaluation is the process of reducing the expression to its simplest
+form. Haskell uses "lazy" or "non-strict" evaluation. This means an expression
+is not evaluated until absolutely necessary. Values are in their simplest form
+but function applications are reducible. Like in lambda calculus, function
+application is reduction/evaluation.
+
 -- Terminology & Concepts --
+
+:: - This operator is used to define type signatures. It means "has the type."
+
+Declaration - Top-level bindings that allow us to name expressions.
+
+Expression - Everything in Haskell is an expression or declaration. An expression
+consists of: a value, a combination of values, and/or functions applied to values.
+They are the building blocks of programs, and programs are one big expression made
+of simpler expressions.
+
+Redexes - Reducible expressions. When an expression cannot be reduced anymore it
+is in "normal form." This directly translates to the beta normal form of the
+lambda calculus.
 
 -- Follow-up Resources --
