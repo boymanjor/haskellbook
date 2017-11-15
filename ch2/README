@@ -33,6 +33,22 @@ is not evaluated until absolutely necessary. Values are in their simplest form
 but function applications are reducible. Like in lambda calculus, function
 application is reduction/evaluation.
 
+Haskell functions default to prefix notation. Operators are functions which
+can be used in infix style. Some functions can be used as with infix style
+by surrounding them by backticks, e.g. `div` 12 3. All operators can be used
+with prefix style by surrounding them with parenthesis, e.g. (+) 1 2.
+
+
+-- draft --
+Operators also have associativity and precedence. These follow similar rules
+to traditional math operations. Parenthesis can be used to group expressions
+and manipulate operator precedence. The "$" operator can be used in place of
+parenthesis and is right associative.
+
+The REPL allows types and other information about expression to be queried
+with the `:type` and `:info` commands.
+-- end draft --
+
 -- Terminology & Concepts --
 
 :: - This operator is used to define type signatures. It means "has the type."
