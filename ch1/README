@@ -59,8 +59,8 @@ This process represents computation in the lambda calculus. Beta reduction is le
 associative, meaning grouping terms should be handled by starting with the left-most
 positioned terms.
 
-Combinator - A combinator is a lambda expression that does not contain any free
-variables.a
+Combinator - A combinator is a fucntion that does not contain any free variables.
+All variable references in the body of the expression are bound by parameters in the head.
 
 Currying - Each lambda can only bind one parameter and apply itself to one argument.
 Functions that require more than one argument really have nested heads i.e.
