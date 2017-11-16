@@ -4,6 +4,60 @@ Chapter 3: Strings
 
 -- Summary --
 
+Types are a way to categorize values. The Haskell `String` type is actually a
+type alias for a list of `Char`. A type alias is a different name for a type,
+normally created for convenience. Thus `String` is another name for `[Char]`.
+
+Printing a `String` to the screen can be accomplished using `print`, `putStr`,
+or `putStrLn` functions. `putStr` and `putStrLn` only accept `String` types
+while `print` accepts other types of arguments.
+
+Printing to the screen uses a special Haskell type, `IO`. This type is used
+whenever the result of running a program involves side effects beyond just
+function/expression evalutation. The printing functions all return the
+special `IO` type. When creating executable programs, there must be a `main`
+function within a Main.hs. This function also has the type IO () and can
+result in side effects.
+
+Haskell has two different concatenation functions: `concat :: [[a]] -> [a]`
+and `(++) :: [a] -> [a] -> [a]`. Given the type signatures, it is clear
+that they can be used for more than just `String` types. The use of type
+variables implies a list of any type can be concatenated using either of
+these functions. This is an example of polymorphism; the idea of allowing
+a particular construct to take on many forms. In this example the two list
+concatenation functions can handle many different types of lists. There
+are even more list functions which can be used to manipulate `String` and
+other list types.
+
+Types are a foundational piece to understanding Haskell. `String` is just
+the first of many that will be introduced throughout the book.
+
 -- Terminology & Concepts --
 
--- Follow-up Resources --
+Concatenation - The joining together of a sequence of values.
+
+`do` notation - This is used to create a sequence of IO actions.
+
+IO () type - The `IO` type is a special type in Haskell. It is used to allow
+a program to perform tasks outside of evaluating a function or expression.
+These tasks are called side effects. Side effects include, but are not limited
+to: reading or writing from standard out, reading or writing to disk, interacting
+with a database, making a network call, etc. Functions which have the type IO ()
+are called actions. These `IO` actions describe the side effects and allow the
+Haskell runtime to execute them.
+
+Scope - A variable's scope is the part of code where a variable is defined/valid.
+
+String - A sequence of characters. The `String` type is a type alias for [Char].
+
+Top-level vs. local bindings - A top-level binding is in scope for an entire program
+and can be imported by other programs. A local definition is only defined within a
+particular expression.
+
+Type - A type is a classification/cateogorization of a set of values. Types are
+a fundamental piece to Haskell programming. Haskell is a typed lambda calculus.
+
+Type Alias - A type alias is a synonym, or different name, for a type.
+
+Typeclasses - Typeclasses provide definitions of operations, or functions,
+which can be shared across sets of types.
