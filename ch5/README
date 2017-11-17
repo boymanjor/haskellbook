@@ -6,6 +6,103 @@ the maker." - Wallace Stevens, "The Idea of Order at Key West"
 
 -- Summary --
 
+Haskell is a pure lambda calculus. It simply adds syntatic sugar over the basic
+system of variables, abstractions and applications that are the rules of a typed
+lambda calculus. System F, discovered in the 1970s, was the first typed lambda
+calculus. Haskell improved on System F by allowing general recursion and the
+Hindley-Milner system to permit type inference.
+
+Types are important because they impose constraints on our code that enforce
+correctness. Haskell is staticly typed. This means typechecking is performed
+at compile time. This allows us to avoid classes of errors invovling the
+correct flow of values in a program. A good type system can also enable
+compiler optimizations by allowing the compiler to predict certain things
+about the execution of a program. Type signatures are like breadcrumbs that
+increase code readability and comprehension.
+
+Data declarations define type type constructors and data constructors. Data
+constructors are the values of a particular type. They are also functions that
+let us create data, or values, of a particular types.
+
+When the compiler comes across a value, it gives it the most generic type
+possible. Many times, it will constrain its type to a typeclass. This will
+allow the value to be used as any type that implements an instance of the
+referenced typeclass. The compiler will delay registering a specific type
+until the coder explictly assigns a concrete type, or the value is used
+in a way that implies a concrete type.
+
+Within a type signature, we can issue typeclass constraints. A type
+signature can have multiple typeclass constraints on one or more of
+the variables. Using a tuple, e.g (Ord a, Num a) => a ... acts as a
+product, or conjunction of constraints.
+
+Haskell is curried by default, but we can uncurry functions. In the simple
+case of two nested functions, we could replace the two functions with a
+2-tuple which contains the arguments to each function. This can be expanded
+to n-nested functions. The reverse is true as well. We can write a function
+that will curry a function which takes n arguments. Again, the n = 2 case
+is much easier than n > 2.
+
+Haskell type signatures have three kinds of types: concrete, constrained/ad-
+hod polymorphic, and parametric polymorphic. Parametric polymorphism is more
+general than ad-hoc. The former deals with type variables while the latter
+using type variables with typeclass constraints. Obvi, using type constructors
+in a type signature result in concrete types.
+
+A function is polymorphic when its type signature has variables that can
+represent more than one type (using ad-hoc/parametric polymorphism). Para-
+metrically polymorphic variables can only be passed/not to another expression.
+Because they can be of any type, there is not much functionality that is defined
+for them. Most functions are applied to values of some specific type, or typeclass
+constraint.
+
 -- Terminology & Concepts --
 
+(->) - The function type constructor. It works similarly to other type constructors
+except it takes arguments and has no data constructors. Functions are values.
+
+Currying - Haskell functions are all 1-arity. Syntatic sugar allows us to define
+functions within multiple arguments, but they are implemented as nested functions
+which each take one argument. This process is called currying.
+
+Monomorphism Restricton - Haskell gives top-level declarations a concrete type by
+default. The defaults are set by the standard library.
+
+Parametricity - The idea that the behavior of a function remains uniform across
+all concrete applications of the function. This property holds true in the
+precense of parametric polymorphishm. Said another way, this property applies
+to functions using type variables in their type signatures.
+
+Partial Application - Partial application is the applicaiton of some of a function's
+arguments. The result is a function which can be applied to the remaining arguments
+of the original function. We can use this to abstract patterns of computation.
+
+Polymorphic Constant - When a constant number value is used, it is given a generic
+Num a => a typeclass constraint. This value could be any numeric type. It will only
+be given a more concrete type when necessary, i.e. it is used in an expression that
+requires a value of a more concrete type.
+
+Principal Type - The most generic type for a value that still typechecks.
+
+Sectioning - The partial application of infix operators. The order does not matter
+for commuative operators, but it does matter for non-commutative operators, e.g (-).
+
+Type Inference - An algorithmm for determing the principal types of expressions.
+Haskell uses an extended version of Damas-Hindley-Milner type system. Haskell
+infers the most generally applicable type that is still correct.
+
+Type Variable - A variable used in a type signature to specify a value of any type.
+
+Typeclass - A mechanism for defining functionality that is shared across various
+datatypes.
+
+Typeclass constraint - A typeclass constraint is a feature used in type signatures
+to restrict a variable to a type which implements an instance of the specifiec
+typeclass. This is used to create polymorphic expressions.
+
 -- Follow-up Resources --
+
+1. Luis Damas; Robin Milner. Principal type-schemes for functional programs
+
+2. Christopher Strachey. Fundamental Concepts in Programming Languages
+   (Popular origin of the parametric/ad-hoc polymorphism distinctionn)
