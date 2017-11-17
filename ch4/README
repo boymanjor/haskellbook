@@ -8,6 +8,100 @@ themselves." - Robin Milner
 
 -- Summary --
 
+Types play a important role in the readability, safety, and maintainability of
+Haskell code. They allow us to classify and *delimit* data. This allows us to
+restrict the type of data that our programs can process.
+
+Haskell code is split into two levels: type and term. The type level is where
+type signatures are created. Type constructors and type names are used here.
+The term level is where expressions are declared and code is written. Data
+constructors are used at the term level.
+
+Datatypes are defined through data declarations. Data declarations take the form:
+`data Mood = Blah | Woot`. `data` is a keyword signifying the beginning of
+a declaration. It's followed by `Mood` the type constructor. This name is what
+would be used in a type signature requiring a value of this defined type. `Blah`
+and `Woot` are data definitions that can be used in expressions. A value of type
+`Mood` would consist of `Blah` or `Woot`. Data declarations do not always follow
+this pattern. Some data declarations use logical conjunctions, some type/data
+constructors take arguments.
+
+Haskell uses multiple types for differing sets of numbers. It is a best practice
+to prefer arbitrary precision types.
+
+-- Integral --
+ - Int: fixed-precision interger
+ - Integer: arbitrary precision integer
+
+-- Fractional --
+ - Float: single-precision floating point number
+ - Double: double-precision floating point number
+ - Rational: represents a ratio of two integers
+ - Scientific: space efficient, arbitrary precision scientific number type
+
+All Haskell number types have instances of the `Num` typeclass. A typeclass
+groups a specific set of types based on common functionality that is shared
+across the types. Inclusion in a typeclass is defined by a type implementing
+an instance of the typeclass. This required implementing the functions that
+are defined in the typeclass. This is similar to interfaces in OOP. Numbers
+are polymorphic until the compiler is required to assign a type.
+
+Haskell does not have "if" statements. It has "if" expression e.g.
+`
+if CONDITION
+then EXPRESSION_A
+else EXPRESSION_B
+`
+
+Haskell has a native `Tuple that is very flexible. It can store "n" elements of
+differing type. It is best practice to create no larger than 5-tuple values. The
+`Tuple` syntax is allowed at both type and term level and pattern matching provides
+great flexibility when creating functions.
+
+Lists are another data type which allows you to store multiple values in single
+data structure. Lists must hold elements of the same value. Unlike tuples, the
+arity (number of elmements store) is not specified in the type and is mutable.
+Lists are very powerful and will be expounded upon later.
+
+There are seven categories of entities that have names in Haskell.
+
+- Type level names include: type constructors, type variables, typeclasses
+- Term level names include: data constructors, term-level variables, functions
+- Modules are used for organizing code
+
+There are also conventions for naming these entities. Type variables tend to
+start at a and go from there: a, b, c, etc. Functions tend to start at f and
+go from there: f, g, h. Auxillary functions may use prime notation, i.e f',
+f'', f'''. Function parameters tend to start at x and go from there: x, y, z.
+Again prime notation can be used for auxillary terms, i.e. x', x'', etc. Lists
+tend to pluralize the name of the a variable, i.e. a list of x will be called xs.
+
 -- Terminology & Concepts --
+
+Arity - The number of arguments a function accepts. This notion is a bit
+ambiguous in Haskell, because technically all functions are 1-arity.
+Currying allows us to handle higher arity functions through nested funcs.
+
+Data Constructor - A data constructor is the value that exists within a
+particular type. It allows you to create the value.
+
+Data Declaration - A data declaration defines a new datatype. They always
+create new type constructors and my also create new data constructors.
+
+Pattern Matching - We can define a function by matching on a data constructor
+or value. The function's behavior will depend on which value it matches.
+
+Polymorphism - In Haskell, this is the ability to write code in terms of values
+that may be one of several type. The same functions will be usable for multiple
+types. This is achieved through "parametric" polymorphism (using type variables
+to allow any type) or "constrained" polymorphish (using a typeclass constraint
+to limit values to implementations of a particular typeclass).
+
+Typeclass Constraint - A type signature can have a more general restriction on
+the type of a variable. Instead of requiring a specific type, a typeclass constraint
+can be used to require a variable must implement an instance of a particular typeclass.
+
+Type Constructor - A type constructor is the name of a type. It is used at the
+type-level to place data restrictions on type signatures.
 
 -- Follow-up Resources --
