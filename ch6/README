@@ -4,6 +4,103 @@ Chapter 6: Typeclasses
 
 -- Summary --
 
+The definition of a type declares how that particular type is created.
+The declaration of a typeclass defines how a set types are used in computations.
+Typeclasses are similar to interfaces from OOP. They allow us to generalize
+over a set of types in order to define and execute a standard feature set for
+those types.
+
+"The goal is to define a datatype by cases, where one can add new cases to the
+datatype, without recompiling existing code, and while retaining static type
+safety (e.g. no casts)" - Philip Wadler
+
+Eq, Ord, Enum, Bounded, Read & Show are common typeclasses that are often used in
+Haskell and can be derived, i.e. they can be referenced without specific
+implementations using the `deriving` in a data declaration.
+
+The syntax for implementing a typeclass is straight-forward:
+`
+data Trivial =
+  Trivial'
+
+instance Eq Trivial where
+  Trivial' == Trivial' = True
+`
+
+The above implements the Eq typeclass on a trivial datatype by implementing
+the (==) function. Note there is only one value that can exist within a Trivial
+typed variable. If we expand trivial as follows:
+`
+data Trivial =
+  Trivial' | Trivial''
+`
+
+The implementation of the Eq instance needs to cover wore input possibilities:
+instance Eq Trivial where
+  Trivial'  == Trivial'  = True
+  Trivial'' == Trivial'' = True
+          _ == _         = False
+`
+
+Typeclass constraints allow for polymorphic functions. These specify that an
+argument to a function must implement an instance of the specified typeclass.
+In this manner, we generalize the behavior of the function. Types in Haskell
+can be made more specific, but not more general. This is why the compiler
+tries to be as general as possible, and only assigns concrete types at the
+last point necessary. When using typeclass constraints on functions, it is
+best to apply the minimally sufficient set of constraints that is necessary.
+
+-- Random Notes --
+
+Typeclasses should have rules and lawes about how
+they work. They should not just be created on a whim and are an undertaking.
+
+A concrete type always implies the typeclasses that are provided for it.
+
+It can be worth it to avoid concrete types and use typeclass constraints/type
+variables whenever possible.
+
 -- Terminology & Concepts --
+
+`()` - Unit; the value returned from an IO action. A Haskell function must
+return a result, but a side-effect doesn't necessarily return a value. In this
+case the unit is returned. It represents nothing.
+
+IO action - A formula for producing a side-effect. An action can return nothing.
+Such an action would have the type `IO ()`. It can also return a concrete type,
+such as a `String`, e.g. `IO String`. The latter can be thought of as a "means
+of producing a `String`", rather than simply a value of type `String`.
+
+Partial Function - A partial function is one that does not handle all the
+possible input scenarios. This would mean that there are possible scenarios
+which have no corresponding behavior defined. The `Read` typeclass is a partial
+function and should not be used. The compiler can detect partial functions when
+the -Wall flag is set.
+
+Read - A typeclass that provides methods for reading Strings and creating
+structured data. It is a partial function, which does not handle all types
+of data conversions. The typeclass is unsafe and it is recommended not to
+use it in practice.
+
+Show - A typeclass that provides methods for creating human readable string
+representations of structured data. GHCi uses `Show` to create `String` values
+it can print in the terminal. Various number types come with an instance of
+`Show`.
+
+Side effect - The result of a function affecting the world outside its scope.
+This produces a potentially, observable result apart from evaluating an expr.
+Haskell introduces a mechanism for allowing side effects without adding
+functionality to the pure lambda calculus it is based on.
+
+Typeclass Inheritance - Typeclasses constraints can be placed on a typeclass, e.g.
+`class (Real a, Enum a) => Integral a where` means that any instance of `Integral`
+must already have instances of `Real` and `Enum`. The former can be thought of a as
+a "subclass" of the latter classes. This inheritance is only additive. The feature
+set of a parent class is a strict subset of the child's features. A child cannot
+override the methods of its parents. This mitigates the typical ambiguity problems
+that creep into multiple inheritance implementations of other programming languages.
+
+Typeclass Instance - A unique pairing of a typeclass and a type. It defines the ways
+to implement the typeclass methods for that type.
 
 -- Follow-up Resources --
