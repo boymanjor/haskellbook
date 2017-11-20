@@ -66,6 +66,8 @@ variables whenever possible.
 return a result, but a side-effect doesn't necessarily return a value. In this
 case the unit is returned. It represents nothing.
 
+IO - The type for values whose evaluation may produce side effects.
+
 IO action - A formula for producing a side-effect. An action can return nothing.
 Such an action would have the type `IO ()`. It can also return a concrete type,
 such as a `String`, e.g. `IO String`. The latter can be thought of as a "means
@@ -87,16 +89,16 @@ representations of structured data. GHCi uses `Show` to create `String` values
 it can print in the terminal. Various number types come with an instance of
 `Show`.
 
-Side effect - The result of a function affecting the world outside its scope.
-This produces a potentially, observable result apart from evaluating an expr.
-Haskell introduces a mechanism for allowing side effects without adding
-functionality to the pure lambda calculus it is based on.
+Side effect - An observable action a program may take other than evaluating
+an expression. If a function modifies some state or interacts with the world
+outside of its scope, then it has an "effect" on the world. Haskell introduces
+a mechanism for allowing side effects without adding functionality to the pure
+lambda calculus it is based on.
 
-Typeclass Inheritance - Typeclasses constraints can be placed on a typeclass, e.g.
-`class (Real a, Enum a) => Integral a where` means that any instance of `Integral`
+Typeclass Inheritance - Typeclass constraints can be placed on a typeclass, e.g.
+`class (Real a, Enum a) => Integral a ...` means that any instance of `Integral`
 must already have instances of `Real` and `Enum`. The former can be thought of a as
-a "subclass" of the latter classes. This inheritance is only additive. The feature
-set of a parent class is a strict subset of the child's features. A child cannot
+a "subclass" of the latter classes. This inheritance is only additive. A child cannot
 override the methods of its parents. This mitigates the typical ambiguity problems
 that creep into multiple inheritance implementations of other programming languages.
 

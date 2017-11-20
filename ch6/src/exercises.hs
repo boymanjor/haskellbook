@@ -114,8 +114,8 @@ settleDown x = if x == Woot
 --       it is not of type Mood and cannot be compared
 --       to a Mood.
 --    c) `Blah > Woot` will not compile because Mood
---       does not implement an instance of Ord.
 --
+--       does not implement an instance of Ord.
 -- 4. Compiles as is
 type Subject = String
 type Verb = String
@@ -138,15 +138,101 @@ data Yeah =
 data Papu =
   Papu Rocks Yeah deriving (Eq, Show)
 
--- myX = 1 :: Int
--- sigmund :: Num a => a -> a
--- sigmund x = myX
+-- 1. phew = Papu "chases" True
+--    a: Does not compile because of missing data constructors
+--
+-- 2. truth = Papu (Rocks "chomskydoz") (Yeah True)
+--    a: compiles!
+--
+-- 3. equalityForall :: Papu -> Papu -> Bool
+--    equalityForall p p' = p == p'
+--    a: compiles!
+--
+-- 4. comparePapus :: Papu -> Papu -> Bool
+--    comparePapus :: p p' = p > p'
+--    a: Does not compile because Papu does not implement an instance of Ord.
+--
+-- Match the types --
+--
+-- Decide if you can substitute the second type for the first
+-- 1. a) i :: Num a => a
+--       i = 1
+--    b) i :: a
+-- Cannot substitute because "1" defaults to a Num a => a
+-- which is more specific than a parametrially polymorphic
+-- type variable.
+--
+-- 2. a) i :: Float
+--       i = 1.0
+--    b) i = Num a => a
+-- Cannot sub because "1.0" defaults to type Fractional a => a
+-- which is a subclass of Num a => a and has additional functionality
+-- that Num a => a does not provide.
+--
+-- 3. a) f :: float
+--       f = 1.0
+--    b) f :: Fractional a => a
+-- Yes, this compiles.
+--
+-- 4. a) f :: float
+--       f = 1.0
+--    b) f :: RealFrac a => a
+-- Yes, this compiles.
+--
+-- 5. a) freud :: a -> a
+--       freud x = x
+--    b) freud :: Ord a => a -> a
+--
+-- 6. a) freud' :: a -> a
+--       freud' x = x
+--    b) freud :: Int -> Int
+-- Yes, this compiles. It is overly restrictive though.
+--
+-- 7. a) myX = 1 :: Int
+--       sigmund :: Int -> Int
+--       sigmund x = myX
+--    b) sigmund :: a -> a
+-- Does not compile because a parametrically poly type variable
+-- must be able to accept any type but sigmund's definition always
+-- returns an Int. This is too specific.
+--
+-- 8. a) myX = 1 :: Int
+--       sigmund :: Int -> Int
+--       sigmund x = myX
+--    b) sigmund ::  Num a => a -> a
+-- Does not compiles because sigmund should return a value of type
+-- Num a => a but always returns an Int.
 
-jung :: [Int] -> Int
-jung xs = head (sort xs)
+-- 9. a) jung :: Ord a => [a] -> a
+--       jung xs = head (sort xs)
+--    b) jung :: [Int] -> Int
+-- Yes, it compiles.
+--
+-- 10. a) young :: [Char] -> Char
+--        young xs = head (sort xs)
+--     b) yound :: Ord a => a -> a
+-- Yes, it compiles.
+--
+-- 11. a) mySort :: [Char] -> [Char]
+--        mySort = sort
+--        signifier :: [Char] -> Char
+--        signifier xs = head (mySort xs)
+--     b) signifier :: Ord a => [a] -> a
+-- Does not compile because xs wiil have Ord a => typeclass constraint
+-- but mySort will expect a [Char] typed value as input. The expected
+-- value is too specific.
+--
+-- Type-Kwon-Do Two: Electric Typealoo
+--
+-- 1. 
+chk :: Eq b => (a -> b) -> a -> b -> Bool
+chk x2y x y = x2y x == y
 
-mySort :: [Char] -> [Char]
-mySort = sort
-
-signifier :: Ord a => [a] -> a
-signifier xs = head (mySort xs)
+-- 2.
+arith :: Num b
+      => (a -> b)
+      -> Integer 
+      -> a
+      -> b
+-- could have used any arithmetic function
+arith x2y z x = fromInteger(z) * (x2y x)
