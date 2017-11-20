@@ -1,0 +1,17 @@
+Chapter 7: More functional patterns
+
+"I would like to be able to always...divide the things up into as many pieces as
+I can, each of which I understand separately. I would like to understand the way
+of adding things up, independently of what it is I'm adding up. - Gerald Sussman
+
+-- Notes --
+
+Haskell functions are first-class entities that make use of syntatic patterns
+and can be:
+- values in expressions, lists, or tuples
+- passed as arguments to a function
+- returned from a function as a result
+
+-- Terminalogy & Concepts --
+
+-- Follow-up resources --
