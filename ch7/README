@@ -12,6 +12,70 @@ and can be:
 - passed as arguments to a function
 - returned from a function as a result
 
+In Haskell, a function is simply an expression with parameters that can return a result.
+This allows it to be applied to arguments. These arguments are expressions, themselves,
+so it follows that a function could be applied to another function. In programming,
+a value that can be used as an argument to a function is a "first-class" value.
+
+We cannot make use of the result of a function until the function is applied to an argument.
+This "binds" the parameter of the function to the argument and allows the function to be
+evaluated/reduced to a result.
+
+`let` expression can also be used to declare and bind variables.
+
+Pattern matching is used to define function behavior based on different potential arguments.
+It can also be used to deconstruct complex datatypes and exppose nested data. Pattern matching
+can also be used to operate on tuples (instead of defining functions). This is done by deconstructing
+the tuples values into separate variables instead of naming the tuple as one value, e.g.
+`
+addEmUp :: Num a => (a, a) -> a
+addEmUp (x, y) = x + y
+`
+instead of:
+
+`
+addEmUp :: Num a => (a, a) -> a
+addEmUp tuple = (fst tuple) + (snd tuple)
+`
+
 -- Terminalogy & Concepts --
+
+Anonymous Function: A function created with no name assigned to it. Anonymous
+functions are most often used when you're passing a function in as an argument
+to a higher-order function and the passed function will only be used once. A
+simnple example from another language is a JS callback.
+
+Bottom - A non-value that is returned when a program cannot return a proper
+value or result. This can happen when a pattern matched function does not handle
+all possible inputs. Using the `-Wall` flag will make the compiler complain about
+a function which has cases that will result in a bottom.
+
+Case Expression - Case expressions are similar to if-then-else expressions accept they can
+be matched against any datatype with visible data constructors as well.
+They follow the form:
+`
+case CONDITION of
+  DATA_CONSTRUCTOR_A -> EXPRESSION_A
+  DATA_CONSTRUCTOR_B -> EXPRESSION_B
+  DATA_CONSTRUCTOR_N -> EXPRESSION_N
+`
+
+Higher-order Function - A function that accepts one or more function as arguments.
+
+Lexical Scoping - Lexical scoping means that resolving the value for a named
+entity depends on the location in the code and the lexical context.
+
+`newType` - An alternative data declaration that only permits one constructor and
+one field.
+
+Pattern Matching - A mechanism used to define function behvaior based on
+matching arguments against specific patterns. Patterns can include: undefined
+variables, value constants, and list syntax. Pattern matching matches on any
+and all data constructors. Patterns are NOT matched against types. `_` is a
+universal pattern (catch-all) that never fails to match. Order matters, so
+options should be ordered from most to least specific.
+
+Shadowing - When a variable, which is in scope, is redefined in a nested expression.
+The lexically, innermost binding of a variable always takes precedence.
 
 -- Follow-up resources --
