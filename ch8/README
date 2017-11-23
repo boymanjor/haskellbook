@@ -1,0 +1,27 @@
+Chapter 8: Recursion
+
+"Imagine a portion of the territory of England has been perfectly levelled, and
+a cartographer traces a map of England. There is no particular of the territory
+of England, small as it can be, that has not been recorded in the map. Everything
+has its own correspondence. The map, then, must contain a map of the map, that must
+contain a map of the map of the map, and so on to infinity."
+- Jorge Luis Borges, citing Josiah Royce
+
+-- Notes --
+
+Recursion is defining a function in terms of itself via self referential expressions.
+Said another way, recursion is a means of expressing code that must take an indefinte
+number of steps to return a result. Each step is initiated by a self referential call
+of the function. This process ends when certain, predefined conditions are met
+"a base case."
+
+The Y combinator, or fixed-point combinator, is used to write recursive functions in
+the lambda calculus. Put simply, the Y combinator is a higher-order function which
+accepts a non-recursive function as input and returns a recursive version of the func.
+A more in depth discussion is here: http://mvanier.livejournal.com/2897.html
+
+Recursion can be thought of as self referential function composition. Instead of a
+fixed number of func applications, recursive functions rely on inputs to determine
+when to stop applying functions to successive results.
+
+-- Follow-up Resources --
