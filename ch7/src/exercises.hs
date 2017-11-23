@@ -113,6 +113,86 @@ oneIsTwo = (flip dodgy) 2
 -- 11. oneIsTwo 3
 --  a. 23
 --
+-- Guard Duty --
+--
+-- 1. If we place an otherwise statement at the beginning of a guard block it
+--    it will be the only guard matched and the function will always evaluate
+--    to its corresponding expression.
+-- 2. Changing the order of the guards will effect function evaluation because
+--    the guards only set a minimum value instead of a range, e.g. 96 >= 90 but
+--    it is also >= 70 so which ever guard is encountered first will be satisfied.
+
+pal xs
+  | xs == reverse xs = True
+  | otherwise        = False
+
+-- 3. pal returns True if xs is a palindrome
+-- 4. pal accepts arguments of type: Eq a => [a]
+-- 5. pal :: Eq a => [a] -> Bool
+
+numbers x
+  | x < 0  = -1
+  | x == 0 = 0
+  | x > 0  = 1
+
+-- 6. numbers returns an indication of whether its argument is positive, negative or zero
+-- 7. numbers accepts arguments of type: Ord a => a
+-- 8. numbers :: (Ord a, Num a, Num b) => a -> b
+--
+-- Chapter Exercises --
+--
+-- 1. A polymorphic function: may resolve to values of different types depending on inputs
+-- 2. Char -> [String]
+-- 3. (Ord a, Num a) => a -> Bool
+-- 4. Is a higher order function
+-- 5. Bool
+--
+-- Let's write code --
+--
+-- 1.
+tensDigit :: Integral a => a -> a
+tensDigit x = d
+  where xLast = x `div` 10
+        d     = xLast `mod` 10
+
+-- a) rewrite using divMod
+tensDigit2 :: Integral a => a -> a
+tensDigit2 x = d
+  where
+    xLast = divMod x 10
+    d     = snd $ divMod (fst xLast) 10
+
+-- b) both versions have the same type
+-- c) write a function that finds the 100s digit
+hunsD = snd . (`divMod` 10) . fst . (`divMod` 100)
+
+-- 2.
+foldBoolCase :: a -> a -> Bool -> a
+foldBoolCase x y z =
+  case z of
+    False -> x
+    True  -> y
+
+foldBoolGuard :: a -> a -> Bool -> a
+foldBoolGuard x y z
+  | z         = y
+  | otherwise = x
+
+-- 3.
+g :: (a -> b) -> (a, c) -> (b, c)
+g f (a, c) = (f a, c)
+
+-- 4.
+roundTrip :: (Show a, Read a) => a -> a
+roundTrip x = read (show x)
+
+-- 5. Write a pointfree version of the roundTrip
+freeRoundTrip :: (Show a, Read a) => a -> a
+freeRoundTrip = read . show
+
+-- 6. Change the roundTrip type signature and get the function working.
+roundTripTwo :: (Show a, Read b) => a -> b
+roundTripTwo = read . show
 -- random example
 f :: (a,b) -> (c,d) -> ((b,d), (a,c))
 f (a,b) (c,d) = ((b,d), (a,c))

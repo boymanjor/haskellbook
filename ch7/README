@@ -39,6 +39,7 @@ addEmUp tuple = (fst tuple) + (snd tuple)
 `
 
 -- Terminalogy & Concepts --
+(.) - The dot operator is a syntax used for function composition.
 
 Anonymous Function: A function created with no name assigned to it. Anonymous
 functions are most often used when you're passing a function in as an argument
@@ -60,6 +61,27 @@ case CONDITION of
   DATA_CONSTRUCTOR_N -> EXPRESSION_N
 `
 
+Function Compositon - Function composition is the process of pipelining data
+through multiple functions. It accepts two functions and returns a third.
+Assuming the arguments to (.) are f and g, respectively, the resulting function
+h will accept the expected argument to g and return the expected result of f.
+During evaluation, h will internally, apply g to the accepted argument, then
+pass the result to f and evaluate. It's important to note that function
+composition is applied from right to left.
+
+Guard syntax - Guard blocks are an alternative syntax for function definition.
+A guard block is similar to an if-then-else expression, in that it relies on
+the truth of conditions. if-then-else expressions only allow two possible outcomes,
+based on one condition. A guard block allows for two or more outcomes (each dependent
+upon a unique condition). Syntax is as follows:
+`
+FUNCTION_NAME FUNCTION_PARAMETERS
+  | CONDITION_A = EXPRESSION_A
+  | CONDITION_B = EXPRESSION_B
+  | CONDITION_C = EXPRESSION_C
+  | otherwise   = CATCH_ALL_EXPRESSION
+`
+
 Higher-order Function - A function that accepts one or more function as arguments.
 
 Lexical Scoping - Lexical scoping means that resolving the value for a named
@@ -75,7 +97,29 @@ and all data constructors. Patterns are NOT matched against types. `_` is a
 universal pattern (catch-all) that never fails to match. Order matters, so
 options should be ordered from most to least specific.
 
+Pointfree Style - A style of composing functions without specifying their args.
+Examples: https://www.haskell.org/tutorial/patterns.html
+
 Shadowing - When a variable, which is in scope, is redefined in a nested expression.
 The lexically, innermost binding of a variable always takes precedence.
 
 -- Follow-up resources --
+
+1. Paul Hudak; John Peterson; Joseph Fasel. A Gentle Introduction to Haskell, chapter
+   on case expressions and pattern matching.
+   https://www.haskell.org/tutorial/patterns.html
+
+2. Simon Peyton Jones. The Implementation of Functional Programming Languages,
+   pages 53-103.
+   http://research.microsoft.com/en-us/um/people/simonpj/papers/slpj-book-1987.index.html
+
+3. Christopher Strachey. Fundamental Concepts in Programming Languages, page 11 for
+   explanation of currying.
+   http://www.cs.cmu.edu/~crary/819-f09/Strachey67.pdf
+
+4. J.N. Oliveira. An introduction to pointfree programming.
+   http://www.di.umino.pt/~jno/ps/iscalc_1.ps.gz
+
+5. Manuel Alcino Pereira da Cunha. Point-free Program Calculation.
+   http://www4.di.umino.pt/~/mac/Publications/phd.pdf
+
