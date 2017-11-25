@@ -117,16 +117,28 @@ frappe = flippy "haha"
 --        | (7, 1)
 
 -- 2. Write a function that sums the integers from 1 to n.
-sum :: (Eq a, Num a) => a -> a
-sum x = go 0 x
-    where go sum count
-            | count == 0 = sum
-            | otherwise  = go (count + sum) (count - 1)
+sum' :: (Eq a, Num a) => a -> a
+sum' x = go 0 x
+    where go total count
+            | count == 0 = total
+            | otherwise  = go (count + total) (count - 1)
 
 -- 3. Write a function that multiples two integral numbers using recursive
 --    summation. The type should be (Integral a) => a -> a -> a.
-sum' :: Integral a => a -> a -> a
-sum' x y = go x y 0
-  where go val count sum
-          | count == 0 = sum
-          | otherwise  = go val (count - 1) (val + sum)
+product :: Integral a => a -> a -> a
+product x y = go x y 0
+  where go val count total
+          | count == 0 = total
+          | otherwise  = go val (count - 1) (val + total)
+
+-- Fixing dividedBy --
+-- Answer found in division.hs
+--
+-- McCarthy 91 function --
+mc91 :: Integral a => a -> a
+mc91 n
+  | n > 100   = n - 10
+  | otherwise = mc91 . mc91 $ (n + 11)
+
+-- Numbers into words --
+-- Answer found in numbers.hs
