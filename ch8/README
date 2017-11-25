@@ -12,7 +12,7 @@ contain a map of the map of the map, and so on to infinity."
 Recursion is defining a function in terms of itself via self referential expressions.
 Said another way, recursion is a means of expressing code that must take an indefinte
 number of steps to return a result. Each step is initiated by a self referential call
-of the function. This process ends when certain, predefined conditions are met
+of the function. This process ends when predefined conditions are met
 "a base case."
 
 The Y combinator, or fixed-point combinator, is used to write recursive functions in
@@ -24,4 +24,19 @@ Recursion can be thought of as self referential function composition. Instead of
 fixed number of func applications, recursive functions rely on inputs to determine
 when to stop applying functions to successive results.
 
+-- Terminology & Concepts --
+
+Bottom - A term used in Haskell to refer to computations that do not succesfully result
+in a value. This can be due to an infinite loop or error.
+
+go function - A Haskell idiom; we define a function within a `where` clause that accepts
+more arguments than the top-level function. This is in lieu of being able to declare
+variables within an expression.
+
+Maybe - A datatype used to handle functions which may return a result or nothing.
+
+`type` - A keyword used to define type aliases.
+
 -- Follow-up Resources --
+
+1. Daniel P. Friedman and Matthias Felleisen. The Little Schemer.
