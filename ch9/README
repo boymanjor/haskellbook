@@ -27,6 +27,32 @@ Ranges are one of the simplest ways to construct lists. We can use the range
 synaxt, e.g. [1..10] or [1,3..10], or the equivalent functions within the Enum
 typeclass, e.g. `enumFromTo 1 10` or `enumFromThenTo 1 3 10`
 functions or (..)
+
+List comprehensions are a means of generating a new list from a list or lists.
+There must be at least one list, the generator, which gies the input for the
+comprehension (the set of source items that will be used to construct the new
+list/s). An output function can also be applied to each element of the new
+list.
+
+List comprehensions can optionally take predicates that limit the elements
+taken from the list. Thus we can have multiple generators and predicates
+that test properties of the values taken from those generators. Those which
+pass inspection will be fed to a function. The resulting value is added to
+a new list. In the case of multiple generators, the rightmost list will be
+exhausted first.
+
+Note: List comprehensions work with strings.
+
+Lists are a recursive series of cons cells terminated by the empty list,
+i.e. a : (a : (a : [])). Data structures in Haskell, particularly lists,
+sequences, and trees have a notion of a spine. The spine is a connective
+structure that ties the collection of values together. W.R.T a list, the
+spine is the recursive cons (:) operators (note: the operators, not the
+entire cons cells).
+
+Since evaluation is non-strict, individual elements within a list are not
+evaluated until they have to be. This can result in a partially evaluated
+list of items.
 -- Terminology & Concepts --
 
 -- Follow-up Resources --

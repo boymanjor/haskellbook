@@ -69,3 +69,106 @@ myWords' x = parse x ' '
 
 myLines' :: String -> [String]
 myLines' x = parse x '\n'
+
+-- Comprehend Thy Lists --
+--
+mySqr :: Integral a => [a]
+mySqr = [x ^ (2 :: Integer) | x <- [1..10]]
+-- [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+
+-- Figure out what the output will be based on mySqr.
+
+first :: Integral a => [a]
+first = [x | x <- mySqr, rem x 2 == 0]
+-- [4, 16, 36, 64, 100]
+
+second :: Integral a => [(a, a)]
+second = [(x, y) | x <- mySqr,
+                   y <- mySqr,
+                   x < 50, y > 50]
+-- [(1, 64), (1, 81), (1, 100) ... (49, 64), (49, 81), (49, 100)]
+
+third :: Integral a => [(a, a)]
+third = take 5 [(x, y) | x <- mySqr,
+                   y <- mySqr,
+                   x < 50, y > 50]
+-- [(1,64),(1,81),(1,100),(4,64),(4,81)]
+--
+-- Square Cube --
+--
+sqr :: Integral a => [a]
+sqr  = [x ^ (2 :: Integer) | x <- [1..5]]
+
+cube :: Integral a => [a]
+cube = [y ^ (3 :: Integer) | y <- [1..5]]
+--
+-- 1. Write an expression that will make tuples of the outputs sqr and cube.
+tuple :: Integral a => [(a, a)]
+tuple = [(x, y) | x <- sqr, y <- cube]
+
+-- 2. Now alter that expression so that it only sues the x and y values
+--    that are less than 50.
+tuple' :: Integral a => [(a, a)]
+tuple' = [(x, y) | x <- sqr, y <- cube, x < 50, y < 50]
+
+-- 3. Apple another function to that list comprehension to determine how many
+--    tuples inhabit your output list.
+tupLen :: Int
+tupLen = length (tuple' :: [(Integer, Integer)])
+
+-- Bottom Madness --
+--
+-- Will the following expressions return a value or bottom.
+--
+-- 1. [x^y | x <- [1..5], y <- [2, undefined]]
+--    answer: bottom
+--
+-- 2. take 1 $ [x^y | x <- [1..5], y <- [2, undefined]]
+--    answer: value
+--
+-- 3. sum [1, 2, undefined]
+--    answer: bottom
+--
+-- 4. length [1, 2, undefined]
+--    answer: result
+--
+-- 5. length $ [1, 2, 3] ++ undefined
+--    answer: bottom
+--
+-- 6. take 1 $ filter even [1, 2, 3, undefined]
+--    answer: result
+--
+-- 7. take 1 $ filter even [1, 3, undefined]
+--    answer: bottom
+--
+-- 8. take 1 $ filter odd [1, 3, undefined]
+--    answer: result
+--
+-- 9. take 2 $ filter odd [1, 3, undefined]
+--    answer: result
+--
+--10. take 3 $ filter odd [1, 3, undefined]
+--    answer: bottom
+--
+-- Decide if the following expressions are in NF, WHNF, or neither.
+--
+-- 1. [1, 2, 3, 4, 5]
+--    answer: NF
+--
+-- 2. 1 : 2 : 3 : 4 : _
+--    answer: neither
+--
+-- 3. enumFromTo 1 10
+--    answer: neither
+--
+-- 4. length [1, 2, 3, 4, 5]
+--    answer: neither
+--
+-- 5. sum (enumFromTo 1 10)
+--    answer: neither
+--
+-- 6. ['a'..'m'] ++ ['n'..'z']
+--    answer: neither
+--
+-- 7. (_, 'b')
+--    answer: WHNF
