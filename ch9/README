@@ -53,6 +53,10 @@ entire cons cells).
 Since evaluation is non-strict, individual elements within a list are not
 evaluated until they have to be. This can result in a partially evaluated
 list of items.
+
+For performance sensitive code it is best to follow the mantra, "lazy in
+the spine, strict in the leaves."
+
 -- Terminology & Concepts --
 
 -- Follow-up Resources --

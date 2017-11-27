@@ -1,5 +1,7 @@
 module Exercises where
 
+import Data.Bool
+
 -- EnumFromTo --
 --
 -- Write enumFromTo for the following types
@@ -172,3 +174,49 @@ tupLen = length (tuple' :: [(Integer, Integer)])
 --
 -- 7. (_, 'b')
 --    answer: WHNF
+--
+-- More Bottoms --
+--
+-- 1. Will the following return a value or bottom?
+--
+--    take 1 $ map (+1) [undefined, 2, 3]
+--    answer: no
+--
+-- 2. Will the following return a value or bottom?
+--
+--    take 1 $ map (+1) [1, undefined, 3]
+--    answer: yes
+--
+-- 3. Will the following expression return a value?
+--
+--    take 2 $ map (+1) [1, undefined, 3]
+--    answer: no
+--
+-- 4. What does the following mystery function do? What is its type?
+--    Describe it in standard English.
+itIsMystery :: String -> [Bool]
+itIsMystery xs =
+  map (\x -> elem x "aeiou") xs
+
+-- itIsMystery takes a string and returns a list of Bools representing
+-- whether each character in the String is a lowercase vowel.
+--
+-- 5. What is the result of the following funcions:
+-- a)
+first'' :: Integral a => [a]
+first'' = map (^ (2 :: Integer)) [1..10]
+-- [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+
+-- b)
+second'' :: Integral a => [a]
+second'' = map minimum [[1..10], [10..20], [20..30]]
+-- [1, 10, 20]
+
+-- c)
+third'' :: Integral a => [a]
+third'' = map sum [[1..5], [1..5], [1..5]]
+-- [15, 15, 15]
+--
+-- 6. Writea function that does the same earlier example using bool.
+negate3 :: Integral a => [a]
+negate3 = map (\x -> bool (x) (-x) (x == 3)) [1..10]
