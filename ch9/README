@@ -57,6 +57,17 @@ list of items.
 For performance sensitive code it is best to follow the mantra, "lazy in
 the spine, strict in the leaves."
 
+Zipping lists together is a means of combining the elements from multiple
+lists into a single list. We can use `zipWith` to add a combining function.
+This will allow us to control the resulting lists elements.
+
+`zip`     :: [a] -> [b] -> [(a, b)]
+`unzip`   :: [(a, b)] -> ([a], [b])
+`zipWith` :: (a -> b -> c) -> [a] -> [b] -> [c]
+
+Unlike list comprehensions, zipping does not create a product of both lists.
+Each value in a list is only found once in the resulting, "zipped" list. The
+zipping process is stopped once one of the lists is exhausted.
 -- Terminology & Concepts --
 
 -- Follow-up Resources --

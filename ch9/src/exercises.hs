@@ -1,6 +1,7 @@
 module Exercises where
 
 import Data.Bool
+import Data.Char
 
 -- EnumFromTo --
 --
@@ -219,3 +220,70 @@ third'' = map sum [[1..5], [1..5], [1..5]]
 -- 6. Writea function that does the same earlier example using bool.
 negate3 :: Integral a => [a]
 negate3 = map (\x -> bool (x) (-x) (x == 3)) [1..10]
+
+-- Filtering --
+--
+-- 1. Write a filter function that would give us all the multiples of 3
+--    out of a list from 1-30.
+filter3s :: Integral a => a -> Bool
+filter3s = \x -> rem x 3 == 0
+
+-- 2. Compose the above function with the length function
+count3s :: Integral a => [a] -> Int
+count3s = length . filter filter3s
+
+-- 3. Write a function that accepts a string and returns
+--    a list of the words in the string save articles.
+filterArticles :: String -> [String]
+filterArticles = filter (\x -> not $ elem x ["the", "a", "an"]) . words
+
+-- Zipping exercises --
+-- 1. Implement zip
+zip' :: [a] -> [b] -> [(a, b)]
+zip' _ [] = []
+zip' [] _ = []
+zip' (x:xs) (y:ys) =
+  (x, y) : zip' xs ys
+
+-- 2. Immplement zipWith
+zipWith' :: (a -> b -> c) -> [a] -> [b] -> [c]
+zipWith' _ [] _ = []
+zipWith' _ _ [] = []
+zipWith' f (x:xs) (y:ys) =
+  f x y : zipWith' f xs ys
+
+-- 3. Rewrite zip' in terms of zipWith'
+zip'' :: [a] -> [b] -> [(a, b)]
+zip'' xs ys = zipWith' (\x -> \y -> (x, y)) xs ys
+
+-- Chapter Exercises --
+--
+-- Data.Char --
+--
+-- 2. Write a function that filters out the uppercase letters of a string
+--    using isUpper.
+filterUpper :: String -> String
+filterUpper = filter (\x -> isUpper x)
+
+-- 3. Write a function that will capitalize the frist letter of a string and return
+--    the entire string.
+capitalize :: String -> String
+capitalize [] = []
+capitalize (x:xs) =
+  toUpper x : xs
+
+-- 4. Change the above to a recursive function that capitalizes the entire string.
+capitalize' :: String -> String
+capitalize' [] = []
+capitalize' (x:xs) =
+  toUpper x : capitalize' xs
+
+-- 5. Write a function that capitlizes the first char of string and returns that char.
+capHead :: String -> Char
+capHead xs = toUpper $ head xs
+
+-- 6. Write capHead as a pointfree function.
+capHead' :: String -> Char
+capHead' = toUpper . head
+
+-- Ciphers --
