@@ -8,11 +8,10 @@ import Data.Bool
 --
 -- recursive, helper function
 eft :: (Ord a, Enum a) => a -> a -> [a]
-eft x y = go x y []
-  where go curr end list
-          | curr > end  = []
-          | curr == end = reverse (curr:list)
-          | otherwise   = go (succ curr) end (curr:list)
+eft curr end
+  | curr > end  = []
+  | curr == end = reverse $ curr : eft (succ curr) end
+  | otherwise   = curr : eft (succ curr) end
 
 eftBool :: Bool -> Bool -> [Bool]
 eftBool x y = eft x y
