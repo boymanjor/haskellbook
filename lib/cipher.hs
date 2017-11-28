@@ -5,7 +5,7 @@ import Data.Char
 -- ceasar encrypts a message using a right-shifted caesar cipher
 -- @param  - Int    - the amount to shift each character of the preimage
 -- @param  - String - the preimage
--- @return - String - the encoded message
+-- @return - String - the ciphertext
 caesar :: Int -> String -> String
 caesar _ [] = []
 caesar x (y:ys)
@@ -15,8 +15,8 @@ caesar x (y:ys)
 
 -- unceasar decripts a caesar cipher encrypted message.
 -- @param  - Int    - the amount each character was shifted
--- @param  - String - the preimage
--- @return - String - the encoded message
+-- @param  - String - the ciphertext
+-- @return - String - the preimage
 uncaesar :: Int -> String -> String
 uncaesar _ [] = []
 uncaesar x (y:ys)
