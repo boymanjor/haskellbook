@@ -68,6 +68,7 @@ This will allow us to control the resulting lists elements.
 Unlike list comprehensions, zipping does not create a product of both lists.
 Each value in a list is only found once in the resulting, "zipped" list. The
 zipping process is stopped once one of the lists is exhausted.
+
 -- Terminology & Concepts --
 
 -- Follow-up Resources --
