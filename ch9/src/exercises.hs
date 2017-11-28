@@ -287,3 +287,4 @@ capHead' :: String -> Char
 capHead' = toUpper . head
 
 -- Ciphers --
+-- Answers found in ../../lib/cipher.hs
