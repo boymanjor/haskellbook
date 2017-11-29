@@ -288,3 +288,40 @@ capHead' = toUpper . head
 
 -- Ciphers --
 -- Answers found in ../../lib/cipher.hs
+--
+-- Writing your own standard functions
+--
+-- 1. Write or
+or' :: [Bool] -> Bool
+or' []     = False
+or' (x:xs) = x || or' xs
+
+-- 2. Write any
+any' :: (a -> Bool) -> [a] -> Bool
+any' _ []     = False
+any' f (x:xs) = f x || any' f xs
+
+-- 3. Write a recursive version of elem, then write a verison using any
+elem', elem'' :: Eq a => a -> [a] -> Bool
+elem' _ [] = False
+elem' x (y:ys) = x == y || elem' x ys
+
+elem'' x ys = any (\x' -> x == x') ys
+
+-- 4. Implement reverse.
+reverse' :: [a] -> [a]
+reverse' xs = go xs []
+  where
+    go []     ys = ys
+    go (x:xs) ys = go xs (x:ys)
+
+-- 5. Implement squish
+go :: [a] -> [a] -> [a]
+go xs ys = go' xs ys
+  where
+    go' []     ys = ys
+    go' (x:xs) ys = go xs (x:ys)
+
+squish' :: [[a]] -> [a]
+squish' []     = []
+squish' (x:xs) = go x $ squish' xs
