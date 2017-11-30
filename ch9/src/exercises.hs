@@ -11,7 +11,7 @@ import Data.Char
 eft :: (Ord a, Enum a) => a -> a -> [a]
 eft curr end
   | curr > end  = []
-  | curr == end = reverse $ curr : eft (succ curr) end
+  | curr == end = curr : []
   | otherwise   = curr : eft (succ curr) end
 
 eftBool :: Bool -> Bool -> [Bool]
@@ -29,17 +29,15 @@ eftInt x y = eft x y
 --    a string into a list of Strings separated by the individual words.
 --
 myWords :: String -> [String]
-myWords x =
-  let nextTok = takeWhile (/=' ')
-      dropTok = dropWhile (==' ') . dropWhile (/=' ')
-      go str list
-        | str == "" = reverse list
-        | otherwise = go (dropTok str) (nextTok str:list)
-  in go x []
+myWords cs
+  | cs == ""  = []
+  | otherwise = h cs : myWords (t cs)
+  where
+    h = takeWhile (/=' ') . dropWhile (==' ')
+    t = dropWhile (/=' ') . dropWhile (==' ')
 
 -- 2. Next write a function that takes a string and returns a list of strings,
 --    nusing newline separators to break up the string.
---    
 sentences :: String
 sentences = "Tyger Tyger, burning bright\n"
             ++ "In the forests of the night\n"
@@ -47,30 +45,28 @@ sentences = "Tyger Tyger, burning bright\n"
             ++ "Could frame thy fearful symmetry?"
 
 myLines :: String -> [String]
-myLines x =
-  let nextTok = takeWhile (/='\n')
-      dropTok = dropWhile (=='\n') . dropWhile (/='\n')
-      go str list
-        | str == "" = reverse list
-        | otherwise = go (dropTok str) (nextTok str:list)
-  in go x []
+myLines cs
+  | cs == ""  = []
+  | otherwise = h cs : myLines (t cs)
+  where
+    h = takeWhile (/='\n') . dropWhile (=='\n')
+    t = dropWhile (/='\n') . dropWhile (=='\n')
 
 -- 3. Abstract away wet code.
 --
 parse :: String -> Char -> [String]
-parse input delim =
-  let nextTok = takeWhile (/= delim)
-      dropTok = dropWhile (== delim) . dropWhile (/= delim)
-      go inp list
-        | inp == "" = reverse list
-        | otherwise = go (dropTok inp) (nextTok inp:list)
-  in go input []
+parse cs delim
+  | cs == ""  = []
+  | otherwise = h cs : parse (t cs) delim
+  where
+    h = takeWhile (/= delim) . dropWhile (== delim)
+    t = dropWhile (/= delim) . dropWhile (== delim)
 
 myWords' :: String -> [String]
-myWords' x = parse x ' '
+myWords' cs = parse cs ' '
 
 myLines' :: String -> [String]
-myLines' x = parse x '\n'
+myLines' cs = parse cs '\n'
 
 -- Comprehend Thy Lists --
 --
@@ -316,12 +312,7 @@ reverse' xs = go xs []
     go (x:xs) ys = go xs (x:ys)
 
 -- 5. Implement squish
-go :: [a] -> [a] -> [a]
-go xs ys = go' xs ys
-  where
-    go' []     ys = ys
-    go' (x:xs) ys = go xs (x:ys)
-
 squish' :: [[a]] -> [a]
-squish' []     = []
-squish' (x:xs) = go x $ squish' xs
+squish' []            = []
+squish' ([]:xss)      = squish' xss
+squish' ((x:xs):xss) = x : squish' (xs:xss)
