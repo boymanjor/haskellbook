@@ -72,4 +72,27 @@ pairwise operation.
 
 -- Terminology & Concepts --
 
+Cons cell - The cons cell is a data constructor that creates a list datatype.
+It is a product of the head and tail of a list, i.e. (a : [a]). The list type
+is recursively defined, so (a : [a]) == (a : (a : [a]) and so on...
+
+Product type - In type theory, a product type is a type made of a set of types.
+The set represents a conjunction, or "and", of those types. This means that
+each type represented in the set must be present in the product type. In Haskell,
+we define product types by passing multiple type arguments to a data constructor.
+
+Sum type - In type theory, a sum type is a type whose terms/values are one of
+the set of types represented in the sum. In Haskell, we represent sum types with
+the pipe, "|", in a data declaration. Sum types represent a disjunction of the
+types.
+
+Spine - The spine is a way to refer to the nested structure that glues a collection
+together. In Haskell lists, it is formed by recursively, nested cons cells.
+
 -- Follow-up Resources --
+
+1. Data.List documentation for the base library.
+   http://hackage.haskell.org/package/base/docs/Data-List.html
+
+2. Ninety-nine Haskell problems.
+   https://wiki.haskell.org/H-99:_Ninety-Nine_Haskell_Problems

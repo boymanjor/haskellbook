@@ -311,8 +311,37 @@ reverse' xs = go xs []
     go []     ys = ys
     go (x:xs) ys = go xs (x:ys)
 
--- 5. Implement squish
-squish' :: [[a]] -> [a]
-squish' []            = []
-squish' ([]:xss)      = squish' xss
-squish' ((x:xs):xss) = x : squish' (xs:xss)
+-- 5. Implement concat
+concat' :: [[a]] -> [a]
+concat' []            = []
+concat' ([]:xss)      = concat' xss
+concat' ((x:xs):xss) = x : concat' (xs:xss)
+
+-- 6. Implement concatMap
+concatMap' :: (a -> [b]) -> [a] -> [b]
+concatMap' f = concat' . map f
+
+-- 7. Implement concat using concatMap
+concat'' :: [[a]] -> [a]
+concat'' = concatMap' (\x -> x)
+
+-- 8. Implement maximumBy
+maximumBy' :: (a -> a -> Ordering) -> [a] -> a
+maximumBy' _ (x:[]) = x
+maximumBy' f (x1:(x2:xs))
+  | f x1 x2 == GT = maximumBy' f (x1:xs)
+  | otherwise     = maximumBy' f (x2:xs)
+
+-- 9. Implement minimumBy
+minimumBy' :: (a -> a -> Ordering) -> [a] -> a
+minimumBy' _ (x:[]) = x
+minimumBy' f (x1:(x2:xs))
+  | f x1 x2 == LT = minimumBy' f (x1:xs)
+  | otherwise     = minimumBy' f (x2:xs)
+
+-- 10. Using the above functions implement minimum and maximum.
+maximum' :: (Ord a) => [a] -> a
+maximum' = maximumBy' compare
+
+minimum' :: (Ord a) => [a] -> a
+minimum' = minimumBy' compare
