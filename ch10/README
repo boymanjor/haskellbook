@@ -1,0 +1,23 @@
+Chapter 10: Foldable lists
+
+"The explicit teaching of thinking is no trivial task, but who said that the
+teaching of programming is? In our terminology, the more explicitly thinking
+is taught, the more of a scientist the programmer will become." - Edsger Dijkstra
+
+-- Notes --
+
+Folds as a general concept are called catamorphishms. Catamorphisms are a
+means of deconstructing data. Folds are introduced through lists but can
+be applied to many different structures.
+
+Folding happens in two stages, traversal and folding. Traversal is the stage
+in which the fold recurses along the spine of the data structure. Folding is
+the stage where the folding function is applied to all the values. This results
+in a reduction/evaluation of the result.
+
+The function `foldr` can be thought of as a `reduce` in JS. There is a `foldl`
+as well. Both functions recurse over the spine in the same direction; the difference
+is which way the nested operations are associated.
+
+Because Haskell is nonstrict (lazy evaluation) we can use `foldr` with functions that
+do not force evaluation to operate on infinite lists.
