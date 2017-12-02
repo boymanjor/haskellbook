@@ -72,3 +72,24 @@ foldl (^) 2 [1..3]
 
 foldl (flip const) 0 [1..5]
 (flip const (flip const (flip const (flip const (flip const 0 1) 2) 3) 4) 5)
+
+It is important to note that in most cases where a `foldl` is wanted, we should use
+`foldl'`. This is because while foldl unconditionally evaluates the spine of the
+data structure, the values will not be evalutaed unless a strict function is used.
+In the case of a long list, this can result in an accumulation of unevaluated,
+recursive function calls (which could overflow the stack). `foldl'` will enforce
+evaluation of values before the recursive calls are made.
+
+Practice writing folds:
+f = (\a b -> take 3 a ++ b)
+foldr f "" ["Pizza", "Apple", "Banana"]
+f "Pizza" (foldr f "" ["Apple", "Banana"])
+f "Pizza" (f "Apple" (foldr f "" ["Banana"]))
+f "Pizza" (f "Apple" (f "Banana" (foldr f "" [])))
+f "Pizza" (f "Apple" (f "Banana" ""))
+
+foldl f "" ["Pizza", "Apple", "Banana"]
+foldl f (f "" "Pizza") ["Apple", "Banana"]
+foldl f (f (f "" "Pizza") "Apple") ["Banana"]
+foldl f (f (f (f "" "Pizza") "Apple") "Banana") []
+(f (f (f "" "Pizza") "Apple") "Banana")

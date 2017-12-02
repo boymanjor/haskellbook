@@ -85,3 +85,6 @@ module Exercises where
 --
 -- i) foldl (flip const) 'z' [1..5]
 --    foldl const 'z' [1..5]
+--
+--  Data Processing --
+--  Answers found in ./data.hs
