@@ -86,10 +86,28 @@ foldr f "" ["Pizza", "Apple", "Banana"]
 f "Pizza" (foldr f "" ["Apple", "Banana"])
 f "Pizza" (f "Apple" (foldr f "" ["Banana"]))
 f "Pizza" (f "Apple" (f "Banana" (foldr f "" [])))
-f "Pizza" (f "Apple" (f "Banana" ""))
+f "Pizza" (f "Apple" (f "Banana" ))
 
 foldl f "" ["Pizza", "Apple", "Banana"]
 foldl f (f "" "Pizza") ["Apple", "Banana"]
 foldl f (f (f "" "Pizza") "Apple") ["Banana"]
 foldl f (f (f (f "" "Pizza") "Apple") "Banana") []
 (f (f (f "" "Pizza") "Apple") "Banana")
+
+NOTE: foldr > foldl' > foldl
+
+scanl f q ls =
+  q : (case ls of
+        []   -> []
+        x:xs -> scanl f (f q x) xs)
+
+-- scanl fibs trick
+fibs = 1 : scanl (+) 1 fibs
+1 : scanl (+) 1 fibs
+1 : (1 : scanl (+) ((+) 1 1) (tail fibs))
+1 : (1 : scanl (+) 2 (tail fibs))
+1 : (1 : (2 : scanl (+) ((+) 2 1) (tail $ tail fibs)))
+1 : (1 : (2 : scanl (+) 3 (tail $ tail $ fibs))
+1 : (1 : (2 : (3 : scanl (+) ((+) 3 2) fibs)))
+1 : (1 : (2 : (3 : scanl (+) 5 (tail $ tail $ tail $ fibs)))
+...
