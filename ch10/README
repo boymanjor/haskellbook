@@ -19,5 +19,56 @@ The function `foldr` can be thought of as a `reduce` in JS. There is a `foldl`
 as well. Both functions recurse over the spine in the same direction; the difference
 is which way the nested operations are associated.
 
-Because Haskell is nonstrict (lazy evaluation) we can use `foldr` with functions that
-do not force evaluation to operate on infinite lists.
+Because Haskell is nonstrict (lazy evaluation) we can use `foldr` with a folding
+function that does not force evaluation on the recursive call to operate on
+infinite lists, e.g.
+
+-- definition of any function
+any :: (a -> Bool) -> [a] -> Bool
+any f xs =
+  foldr (\x b -> f x || b) False xs
+
+-- sample execution using an infinite list
+
+any' even [1..]
+  = foldr (\x b -> f x || b) False [1..]
+  = foldr f' False [1..]
+
+foldr f' False [1..]
+  = f' 1 (foldr f' False [2..])
+  = even 1 || (foldr f' False [2..])
+  = foldr f' False [2..]
+
+foldr f' False [2..]
+  = f' 2 (foldr f' False [3..])
+  = even 2 || (foldr f' False [3..])
+  = True
+
+The above function call would result in a bottom value if called with (repeat 1)
+because a `True` value would never trigger the (||) short circuit. Thus, the
+recursive `foldr` call would continue forever.
+
+We can use scan functions to see how folds evaluate. They work similarly to their
+fold counterpars, but return a list of intermediate stages of the fold.
+
+last (scanl f z xs) = foldl f z xs
+head (scanr f z xs) = foldr f z xs
+
+The difference between foldr and foldl is illuminated when the folding function
+is not associative. It is important to remember that the fundamental way to think
+about evaluation in Haskell is as substitution.
+
+foldr (^) 2 [1..3]
+(^) 1 ((^) 2 ((^) 3 2))
+(^) 1 ((^) 2 9)
+(^) 1 512
+1
+
+foldl (^) 2 [1..3]
+(^) ((^) ((^) 2 1) 2) 3
+(^) ((^) 2 2) 3
+(^) 4 3
+64
+
+foldl (flip const) 0 [1..5]
+(flip const (flip const (flip const (flip const (flip const 0 1) 2) 3) 4) 5)

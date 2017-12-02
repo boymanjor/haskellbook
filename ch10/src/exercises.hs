@@ -1,0 +1,87 @@
+module Exercises where
+
+-- Understanding Folds --
+-- 1. foldr (*) 1 [1..5] will return the same as:
+--    a) flip (*) 1 [1..5]
+--    b) foldl (flip (*)) 1 [1..5]
+--    ---------------------
+--    c) foldl (*) 1 [1..5]
+--    ---------------------
+--
+-- 2. Write out the evaluation steps for foldl (flip(*)) 1 [1..3]
+--
+-- foldl (flip (*)) 1 [1..3]
+-- f ~ flip (*), z ~ 1
+--
+-- foldl f z [1..3]
+-- foldl f (f z 1) [2..3]
+-- foldl f (f (f z 1) 2) [3]
+-- foldl f (f (f (f z 1) 2) 3) []
+-- f (f (f z 1) 2) 3
+-- f (f (f 1 1) 2) 3
+-- f (f 1 2) 3
+-- f 2 3
+-- 6
+--
+-- 3. One difference between foldr and foldl is:
+--    a) foldr, but not foldl, traverses the spine of a list from right to left
+--    b) foldr, but not fold, always forces the rest of the fold
+--    ------------------------------------------------
+--    c) foldr, but not foldl, associates to the right
+--    ------------------------------------------------
+--    d) foldr, but not foldl, is recursive
+--
+-- 4. Folds are catamorphisms, which means they are generally used to
+--    -------------------
+--    a) reduce structure
+--    -------------------
+--    b) expand structure
+--    c) render you catatonic
+--    d) generate infinite data structures
+--
+-- 5. The following are simple folds very similar to what you've already
+--    seen, but each has at least one error. Please fix them and test in
+--    your REPL:
+--
+-- a) foldr (++) ["woot", "WOOT", "woot"]
+--    foldr (++) "" ["woot", "WOOT", "woot"]
+
+-- b) foldr max [] "fear is the little death"
+--    foldr max ' ' "fear is the little death"
+
+-- c) foldr and True [False, True]
+--    foldr (&&) True [False, True]
+
+-- d) foldr (||) True [False, True]
+--    foldr (||) False [False, True]
+
+-- e) foldl ((++) . show) "" [1..5]
+--    foldr ((++) . show) "" [1..5]
+
+-- f) foldr const 'a' [1..5]
+--
+--    foldr const 'a' [1..5]
+--    f ~ const, z ~ 'a'
+--    foldr f z [1..5]
+--    f 1 (foldr f z [2..5])
+--    f 1 (f 2 (foldr f z [3..5]))
+--    f 1 (f 2 (f 3 (foldr f z [4..5])))
+--    f 1 (f 2 (f 3 (f 4 (foldr f z [5..5]))))
+--    f 1 (f 2 (f 3 (f 4 (f 5 (foldr f z [])))))
+--    f 1 (f 2 (f 3 (f 4 (f 5 'a'))))
+--    f 1 (f 2 (f 3 (f 4 5)))
+--    f 1 (f 2 (f 3 4))
+--    f 1 (f 2 3)
+--    f 1 2
+--    1 :: a but we want something of type b
+--
+--    foldr (flip const) 'a' [1..5] 
+
+-- g) foldr const 0 "tacos"
+--    foldr (flip const) 0 "tacos"
+--
+-- h) foldl (flip const) 0 "burritos"
+--    foldl const 0 "burritos"
+--
+-- i) foldl (flip const) 'z' [1..5]
+--    foldl const 'z' [1..5]
