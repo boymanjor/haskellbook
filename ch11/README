@@ -1,0 +1,23 @@
+Chapter 11: Algebraic datatypes
+
+"The most depressing thing about life as a programmer, I think, is if you're
+faced with a chunk of code that either someone else wrote or, worse still, you
+wrote yourself but no longer dare to modify. That's depressing." - Simon Peyton Jones
+
+-- Notes --
+
+A type can be thought of as an enumeration of constructors that have zero or more
+arguments. Haskell has sum types, product types, product types with record syntax,
+type alieases, and a special datatype called newtype. All allow us to structure
+data that our programs process. Defining types forces the programmer to think
+about modeling the domain before thining about how to write computations.
+
+Data declarationns define datatypes. They also create type and data constructors.
+Constructors taht take no arguments behave like (type or value-level) constants.
+Constructors that take arguments act like (type or value-level) functions, except
+they don't do anything except get applied.
+
+-- Terminology & Concepts --
+
+Nullary constructor - A type/data constructor that takes no arguments. They are also
+known as type/data constants.
