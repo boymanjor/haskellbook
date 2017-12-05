@@ -1,5 +1,7 @@
 module Exercises where
 
+import Data.List
+
 -- Understanding Folds --
 -- 1. foldr (*) 1 [1..5] will return the same as:
 --    a) flip (*) 1 [1..5]
@@ -88,3 +90,146 @@ module Exercises where
 --
 --  Data Processing --
 --  Answers found in ./data.hs
+--
+--  Scan Exercises --
+--
+-- 1. Modify fibs (using scanl) to only return the first
+--    20 Fibonacci numbers.
+fibs20 = take 20 $ 1 : scanl (+) 1 fibs20
+
+-- 2. Modify fibs to return the Fibonacci numbers that
+--    are less than 100.
+fibsU100 = takeWhile (<100) $ 1 : scanl (+) 1 fibsU100
+
+-- 3. Write factorial using scan.
+factorial n = take n $ 1 : scanl (*) 2 [3..]
+
+-- Chapter Exercises --
+--
+-- 1. Given the following sets of constants and vowels:
+
+stops  = "pbtdkg"
+vowels = "aeiou"
+
+-- a) Write a function that makes all possible 3-tuple
+-- combinations of the form stop-vowel-stop, given
+-- the below string inputs.
+tuples = [(x,y,z) | x <- stops, y <- vowels, z <- stops]
+
+-- b) Modify the above function so that it only returns
+--    combinations beginning with a p.
+tuples' = [(x,y,z) |
+           x <- stops,
+           y <- vowels,
+           z <- stops, x == 'p']
+
+-- c) Now make a list of nouns and verbs and repeat the
+--    process.
+nouns = ["cat", "dog", "man", "woman", "car"]
+verbs = ["loves", "fights", "hates", "likes", "drives"]
+tuples'' = [concat [x," ", y, " ", z] | x <- nouns, y <- verbs, z <- nouns]
+
+-- 2. Figure out what the following function does.
+seekritFunc x =
+  div (sum (map length (words x)))
+      (length (words x))
+-- This above function finds the average length of
+-- the words in a given sentence.
+--
+-- 3. Rewrite the above function using fractional
+--    division.
+seekritFunc' x =
+  (/) (sum (map genericLength (words x)))
+      (genericLength (words x))
+
+-- 1. Rewrite or
+or' :: [Bool] -> Bool
+or' = foldr (||) False
+
+-- 2. Rewrite any
+any' :: (a -> Bool) -> [a] -> Bool
+-- any' f xs = (foldr (||) False) ((map f) xs)
+-- any' f xs = foldr (||) False $ (map f) xs
+-- any' f = \xs -> foldr (||) False . (map f) $ xs
+-- any' f = foldr (||) False . (map f)
+-- any' f = (.) (foldr (||) False) (map f)
+-- any' f = (.) (foldr (||) False) $ map f
+-- any' = \f -> (.) (foldr (||) False) . map $ f
+-- any' = (.) (foldr (||) False) . map
+-- answer is the blackbird of the fold and a map
+any' = (foldr (||) False .) . map
+
+-- 3. Rewrite elem twice, once with fold and once
+--    with any
+elem', elem'' :: Eq a => a -> [a] -> Bool
+-- elem' x = foldr (\x' z -> x' == x || z) False
+-- elem' x = (foldr (==) False) . (map (==x))
+-- elem' x = (.) (foldr (==) False) . map $ (==) x
+-- elem' x = (.) (foldr (==) False) . map $ (==) x
+-- elem' = (.) (foldr (==) False) . map . (==)
+elem'  = (foldr (||) False .) . map . (==)
+elem'' = any . (==)
+
+-- 4. Implement reverse.
+reverse' :: [a] -> [a]
+reverse' = foldl (flip (:)) []
+
+-- 5. Write map.
+map' :: (a -> b) -> [a] -> [b]
+-- map' f xs = foldr (\x ys -> f x : ys) [] xs
+-- map' f = foldr (\x ys -> f x : ys) []
+-- map' f = foldr (\x ys -> (:) (f x) ys) []
+-- map' f = foldr (\x -> (:) (f x) ) []
+-- map' f = foldr (\x -> (:) (f x) ) []
+-- map' f = foldr (\x -> (:) $ f x ) []
+-- map' f = foldr (\x -> (:) . f $ x ) []
+-- map' f = flip foldr [] (\x -> (:) . f $ x )
+-- map' f = flip foldr [] ((:) . f )
+-- map' f = flip foldr [] ((:) . f)
+-- map' f = flip foldr [] . (.) (:) $ f
+-- map' = flip foldr [] . (.) (:)
+map' = flip foldr [] . ((:) .)
+
+-- 6. Write filter.
+filter' :: (a -> Bool) -> [a] -> [a]
+filter' f = foldr (\x ys -> if f x then x : ys else ys) []
+
+-- 7. Write concat
+concat' :: [[a]] -> [a]
+concat' = foldr (++) []
+
+-- 8. Write concatMap
+concatMap' :: (a -> [b]) -> [a] -> [b]
+-- concatMap' f xs = concat' (map' f xs)
+-- concatMap' f xs = concat' $ map' f xs
+-- concatMap' f xs = concat' . map' f $ xs
+-- concatMap' f = concat' . map' f
+-- concatMap' f = (.) concat' (map' f)
+-- concatMap' f = (.) concat' $ map' f
+-- concatMap' f = (.) concat' . map' $ f
+-- concatMap' = (.) concat' . map'
+-- Another blackbird!!!!
+concatMap' = (concat' .) . map'
+
+-- 9. Write concat using concatMap'
+concat'' :: [[a]] -> [a]
+concat'' =  concatMap' id
+
+-- 10. Write maximumBy
+maximumBy' :: (a -> a -> Ordering)
+          -> [a]
+          -> a
+maximumBy' f xs = foldr1 g xs
+  where
+    g x y = case (f x y) of
+      GT -> x
+      otherwise -> y
+
+minimumBy' :: (a -> a -> Ordering)
+          -> [a]
+          -> a
+minimumBy' f xs = foldr1 g xs
+  where
+    g x y = case (f x y) of
+      LT -> x
+      otherwise -> y
