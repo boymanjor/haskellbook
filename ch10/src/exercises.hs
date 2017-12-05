@@ -219,17 +219,18 @@ concat'' =  concatMap' id
 maximumBy' :: (a -> a -> Ordering)
           -> [a]
           -> a
-maximumBy' f xs = foldr1 g xs
+maximumBy' f = foldr1 g
   where
     g x y = case (f x y) of
       GT -> x
-      otherwise -> y
+      _  -> y
 
+-- 11. Write minimumBy
 minimumBy' :: (a -> a -> Ordering)
           -> [a]
           -> a
-minimumBy' f xs = foldr1 g xs
+minimumBy' f = foldr1 g
   where
     g x y = case (f x y) of
       LT -> x
-      otherwise -> y
+      _  -> y
