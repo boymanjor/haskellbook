@@ -17,6 +17,10 @@ Constructors taht take no arguments behave like (type or value-level) constants.
 Constructors that take arguments act like (type or value-level) functions, except
 they don't do anything except get applied.
 
+The type arguments of data constructors are types (not other data constructors).
+At the term level, these type arguments  will be actual values. Constructors can
+be made polymorphic by specifying type variables as their type arguments.
+
 -- Terminology & Concepts --
 
 Nullary constructor - A type/data constructor that takes no arguments. They are also

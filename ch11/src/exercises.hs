@@ -13,3 +13,7 @@ module Exercises where
 -- 7. DogueDeBordeaux is a type and data constructor
 -- 8. DogueDeBordeaux :: doge -> DogueDeBordeaux doge
 -- 9. DogueDeBordeaux "doggie!" :: DogueDeBordeaux [Char]
+--
+-- Vehicles --
+--
+-- types and exercises in vehicles.hs
