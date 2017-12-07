@@ -21,7 +21,52 @@ The type arguments of data constructors are types (not other data constructors).
 At the term level, these type arguments  will be actual values. Constructors can
 be made polymorphic by specifying type variables as their type arguments.
 
+An algebraic datatype is a composite type, formed by combining other types. The
+two most common classes of ADTs are sum types and product types. A sum type is
+the logical disjunction of the possible types of values it can hold (specified
+by its data constructors). In Haskell, the pipe operator (|) is used to denote
+separate types. The total number of possible values of a sum type is the sum of
+the cardinalities of its data constructors. A product type is the logical conjunction
+of its fields. A product type requires that each of its constituent fields be filled.
+The number of possible values of a product type is the product of the individual
+cardinalities of its required types. A product type can be thought of as a struct.
+
 -- Terminology & Concepts --
+
+Cardinality - In terms of data structures, cardinality is the number of possible
+values it defines.
+
+FlexibleInstances - A language pragma that allows typeclasses instances to be
+implemented with more than just the form (Typeconstructor a1 a2 ... an)
+
+GeneralizeNewtypeDeriving - A language pragma that allows unary datatypes defined
+with the `newtype` keyword, to derive all of the typeclass instances from its
+underlying type. These typeclass instances are allowed to be overridden. By default,
+any `newtype` defined datatype must provide its own typeclass implementations.
+
+newtype - A keyword used to create a unary constructor. Unary constructors inherit
+the cardinality of their singular type argument. They provide certain advantages
+over a regular, data declaration. Once being that it has no runtime overhead. It
+uses the same representation as the type it contains. newtype is similar to a
+type alias of the accepted type argument. It differs in that a newtype declaration
+allows different typeclass instances to be implemented than its underlying type.
+
+Normal Form - ADTs follow all the same algebraic rules for products and types. Normal
+form is when an ADT is expressed as a sum of products. Product types can be distributed
+over sums, just like with arithmetic.
 
 Nullary constructor - A type/data constructor that takes no arguments. They are also
 known as type/data constants.
+
+Record syntax - Record syntax is a way of defining product types that provides
+accessor methods for the enclosed data. The following define similar types:
+
+  data Person = Person String Int
+  data Person = { name :: String
+                , age :: Int }
+
+The difference is that the latter data declaration will also create the following
+functions 
+
+  name :: Person -> String
+  age :: Person -> Int
