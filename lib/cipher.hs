@@ -26,7 +26,9 @@ int2Let (n, b)
 -- shift rotates an alphabet character n positions to the right, accounting for
 -- overflow. A negative n shifts to the left.
 shift :: Int -> Char -> Char
-shift n c = int2Let (mod (fst tup + n) 26, snd tup)
+shift n c
+  | isAlpha c  = int2Let (mod (fst tup + n) 26, snd tup)
+  | otherwise = c
   where tup = let2Int c
 
 -- ceasar encrypts a message using a right-shifted caesar cipher
@@ -35,9 +37,7 @@ shift n c = int2Let (mod (fst tup + n) 26, snd tup)
 -- @return - String - the ciphertext
 caesar :: Int -> String -> String
 caesar n s = map f s
-  where f c
-          | isAlpha c = shift n c
-          | otherwise = c
+  where f = shift n
 
 -- unceasar decripts a caesar cipher encrypted message.
 -- @param  - Int    - the amount each character was shifted
@@ -45,3 +45,22 @@ caesar n s = map f s
 -- @return - String - the preimage
 uncaesar :: Int -> String -> String
 uncaesar n s = caesar (-n) s
+
+-- matchSize resizes the first string argument to match the second's length using
+-- truncation to shrink and duplication to grow.
+matchSize :: String -> String -> String
+matchSize cs target = go cs "" $ length target
+  where
+    sz = length cs
+    go old acc count
+      | count == 0 = acc
+      | count < sz = acc ++ take count old
+      | otherwise  = go old (acc ++ old) (count - sz)
+
+vigenere :: String -> String -> String
+vigenere ks ps = zipWith f (matchSize ks ps) ps
+  where f = shift . fst . let2Int
+
+unvigenere :: String -> String -> String
+unvigenere ks ps = zipWith f (matchSize ks ps) ps
+  where f = shift . negate . fst . let2Int

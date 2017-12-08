@@ -181,3 +181,12 @@ data Quantum =
 -- 4. prodTBool can have 64 types
 -- 5. gTwo can have (4 ^ 4) ^ 4 types
 -- 6. fTwo can have 65536 types
+--
+-- Chater Exercises --
+-- 1. Weekday is a type with 5 data constructors
+-- 2. f :: Weekday -> String
+-- 3. Types defined with the data keyword must be capitalized.
+-- 4. The function g xs = xs !! (length xs - 1) returns the last element of a list
+--
+-- Ciphers --
+-- Exercise can be found in ../lib/cipher.hs
