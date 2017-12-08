@@ -31,6 +31,13 @@ of its fields. A product type requires that each of its constituent fields be fi
 The number of possible values of a product type is the product of the individual
 cardinalities of its required types. A product type can be thought of as a struct.
 
+It is best to not use type aliases for unstructured data like text/binary. Type
+aliases are best used as a light-weight alternative to `newtype` when we need
+more explicit type signatures.
+
+
+To find the number of possible implementations of a function, we must use the
+exponents. A function of type a -> b has |b| ^ |a| possible types (a
 -- Terminology & Concepts --
 
 Cardinality - In terms of data structures, cardinality is the number of possible
@@ -59,7 +66,8 @@ Nullary constructor - A type/data constructor that takes no arguments. They are 
 known as type/data constants.
 
 Record syntax - Record syntax is a way of defining product types that provides
-accessor methods for the enclosed data. The following define similar types:
+accessor functions for the enclosed data. These functions can be used for
+deconstructing data. The following define similar types:
 
   data Person = Person String Int
   data Person = { name :: String

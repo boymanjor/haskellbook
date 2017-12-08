@@ -69,3 +69,115 @@ data NumberOrBool =
   deriving (Eq, Show)
 -- 2. Given the above data declaration what is the resulting types cardinality.
 --    answer: 256 + 2 = 258
+--
+-- How Does Your Garden Grow? --
+--
+-- Given the following:
+-- data FlowerType = 
+--     Gardenia
+--   | Daisy
+--   | Rose
+--   | Lilac
+--   deriving Show
+--   
+-- type Gardener = String
+-- data Garden =
+--   Garden Gardener FlowerType
+--   deriving Show
+--
+-- What is the normal form of the Garden type?
+type Gardner = String
+
+data Garden =
+    Gardenia Gardner
+  | Daisy Gardner
+  | Rose Gardner
+  | Lilac Gardner
+  deriving Show
+
+-- Programmers --
+--
+-- Write a function that creates all possible types of programmers
+data OperatingSystem =
+    GnuPlusLinux
+  | OpenBSDPlusNevermindJustBSDStill | Mac
+  | Windows
+  deriving (Eq, Show)
+
+data ProgLang =
+    Haskell
+  | Agda
+  | Idris
+  | PureScript
+  deriving (Eq, Show)
+
+data Programmer =
+  Programmer { os :: OperatingSystem
+             , lang :: ProgLang }
+  deriving (Eq, Show)
+
+allOperatingSystems :: [OperatingSystem]
+allOperatingSystems =
+  [ GnuPlusLinux
+  , OpenBSDPlusNevermindJustBSDStill
+  , Mac
+  , Windows
+  ]
+
+allLanguages :: [ProgLang]
+allLanguages = [Haskell, Agda, Idris, PureScript]
+
+allProgrammers :: [Programmer]
+allProgrammers = [Programmer{ os = x, lang = y} |
+                  x <- allOperatingSystems,
+                  y <- allLanguages]
+
+data Quantum =
+    Yes
+  | No
+  | Both
+  deriving Show
+
+-- convert :: Quantum -> Bool
+-- convert Yes  = True
+-- convert No   = True
+-- convert Both = True
+
+-- convert Yes  = True
+-- convert No   = True
+-- convert Both = False
+
+-- convert Yes  = True
+-- convert No   = False
+-- convert Both = True
+
+-- convert Yes  = False
+-- convert No   = True
+-- convert Both = True
+
+-- convert Yes  = True
+-- convert No   = False
+-- convert Both = False
+
+-- convert Yes  = False
+-- convert No   = True
+-- convert Both = False
+
+-- convert Yes  = False
+-- convert No   = False
+-- convert Both = True
+
+-- convert Yes  = False
+-- convert No   = False
+-- convert Both = False
+--
+-- The Quad --
+--
+-- How many inhabitants?
+--
+-- 1. eQuad can have 8 types
+-- 2. prodQuad can have 16 types
+-- 3. funcQuad can have 256 types
+-- 4. prodTBool can have 64 types
+-- 5. gTwo can have (4 ^ 4) ^ 4 types
+-- 6. fTwo can have 65536 types
