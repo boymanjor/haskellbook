@@ -190,3 +190,23 @@ data Quantum =
 --
 -- Ciphers --
 -- Exercise can be found in ../lib/cipher.hs
+--
+-- As-patterns
+--
+-- 1. Write a function that returns True if (and only if) all the values in
+--    the first list appear in the second list, though they need not be contiguous.
+isSubseqOf :: (Eq a)
+           => [a]
+           -> [a]
+           -> Bool
+isSubseqOf [] _  = True
+isSubseqOf _  [] = False
+isSubseqOf xs'@(x:xs) ys'@(y:ys)
+  | x == y    = isSubseqOf xs ys
+  | otherwise = isSubseqOf xs' ys
+
+-- 2. Split a sentence into words, then tuple each word with the capitalized version
+--    of it.
+capitalizeWords :: String
+                -> [(String, String)]
+capitalizeWords = undefined
