@@ -181,9 +181,9 @@ either' :: (a -> c)
         -> Either a b
         -> c
 either' f _ (Left x)  = f x
-either' _ g (Right x) = g x
+either' _ g (Right y) = g y
 
 eitherMaybe'' :: (b -> c)
              -> Either a b
              -> Maybe c
-eitherMaybe'' f x = either' id f (Right x)
+eitherMaybe'' g = either' (const Nothing) (Just . g)
