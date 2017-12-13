@@ -39,3 +39,19 @@ foldt :: (a -> b -> b)
 foldt _ z Leaf           = z
 foldt f z (Node Leaf a Leaf) = f a z
 foldt f z (Node l a r)   = foldt f (f a (foldt f z r)) l
+
+unfold :: (a -> Maybe (a, b, a))
+       -> a
+       -> BinaryTree b
+unfold f a =
+  case f a of
+    Nothing        -> Leaf
+    Just (l, n, r) -> (Node (unfold f l) n (unfold f r))
+
+treeBuild :: Integer -> BinaryTree Integer
+treeBuild 0 = Leaf
+treeBuild n = unfold f 0
+  where
+    f x
+     | x < n     = Just (x+1, x, x+1)
+     | otherwise = Nothing
