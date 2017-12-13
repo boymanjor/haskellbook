@@ -59,7 +59,27 @@ It is important to note that non-nullary data constructors operate like function
 arguments are type checked against their data declaration. They are also curried and can
 be used as higher order functions.
 
+Unfolds, or anamorphisms, let us build up data structures. There are different ways to
+unfold a data structure, i.e. `iterate` and `unfoldr`. Unfolds allow us to create finite
+and infinite data structures.
+
+  iterate  :: (a -> a) -> a -> [a]
+   unfoldr :: (b -> Maybe (a, b)) -> b -> [a]
+
+`iterate` is limited in its type signature, while `unfoldr` is more general. Both unfold
+forever but can be paired with `take` to create finite data structures. The following
+functions both create a list of integers [0..9]:
+
+  take 10 $ iterate (+1) 0
+  take 10 $ unfoldr (\b -> Just (b, b+1)) 0
+
 -- Terminology & Concepts --
+
+Anamorphism - A.k.a unfolds, anamorphisms are functions which allow us to build up data
+structures.
+
+Catamorphism - A.k.a folds, catamorphisms are functions which allow us to break down data
+structures.
 
 Lifted type - A lifted type is any type that can be inhabited by bottom. All types that
 you can define are lifted. They are of kind *.

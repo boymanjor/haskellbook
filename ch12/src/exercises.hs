@@ -187,3 +187,23 @@ eitherMaybe'' :: (b -> c)
              -> Either a b
              -> Maybe c
 eitherMaybe'' g = either' (const Nothing) (Just . g)
+
+-- Write your own iterate and unfoldr --
+--
+-- 1. Write iterate using direct recursion.
+iterate' :: (a -> a) -> a -> [a]
+iterate' f a = a' : (iterate f a')
+  where a' = f a
+
+-- 2. Wite unfoldr using direct recursion.
+unfoldr' :: (b -> Maybe (a, b))
+         -> b
+         -> [a]
+unfoldr' f b =
+  case f b of
+    Nothing     -> []
+    Just (a, b) -> a : unfoldr' f b
+
+-- 3. Rewrite iterate using unfoldr.
+iterate'' :: (a -> a) -> a -> [a]
+iterate'' f = unfoldr' (\b -> Just (b, f b))
