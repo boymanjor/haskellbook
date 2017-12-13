@@ -81,6 +81,10 @@ structures.
 Catamorphism - A.k.a folds, catamorphisms are functions which allow us to break down data
 structures.
 
+Higher-kinded type - Any type whose kind has a function arror in it is known as a higher-
+kinded type. These types can be defined as type constructors and require the application
+of type arguments before they can be inhabited by values.
+
 Lifted type - A lifted type is any type that can be inhabited by bottom. All types that
 you can define are lifted. They are of kind *.
 
