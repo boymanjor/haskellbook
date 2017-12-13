@@ -4,3 +4,65 @@ Chapter 12: Signaling adversity
 - Edsger W. Dijkstra
 
 -- Notes --
+
+  data Maybe = Nothing | Just a
+
+The above is a type defined in Prelude that allows us to return "nothing" when a
+function does not have a suitable return value for type a.
+
+We can use the `Maybe` type to create smart constructors. A smart constructor will
+only create a value if certain criteria is met, e.g.
+
+  type Name = String
+  type Age  = Integer
+
+  data Person = Person Name Age
+
+  mkPerson :: Name -> Age -> Maybe Person
+  mkPerson name age
+    | name /= "" && age >= 0 = Just $ Person name age
+    | otherwise              = Nothing
+
+The above works if we do not care why the function failed to return a proper value
+of type person. If we would like to encode such data we can use the `Either` type.
+
+  Either a b = Left a | Right b
+
+This type constructor allows us to provide one type or another. The above example
+can be changed to return information on mkPerson's failure.
+
+  type Name = String
+  type Age  = Integer
+
+  data Person = Person Name Age
+
+  data PersonInvalid = NameEmpty
+                     | AgeTooLow
+                     deriving (Eq, Show)
+
+  mkPerson :: Name -> Age -> Either PersonInvalid Person
+  mkPerson name age
+    | name == "" = Left NameEmpty
+    | age < 0    = Left AgeTooLow
+    | otherwise  = Right $ Person name age
+
+It is by convention that the error value, or the value that will stop program execution,
+should inhabit the `Left` of an `Either`.
+
+A kind is used to describe the type of a type constructor. Type constructors are also
+known as "higher-kinded" types. The (->) operator denotes an application is necessary
+before a value will take on its final type. This implies that the type constructor
+being queried takes an additional argument. When satisfying type arguments, the kind
+needs to match what is being requested (just like satisfying function arguments with values).
+
+It is important to note that non-nullary data constructors operate like functions. Their
+arguments are type checked against their data declaration. They are also curried and can
+be used as higher order functions.
+
+-- Terminology & Concepts --
+
+Lifted type - A lifted type is any type that can be inhabited by bottom. All types that
+you can define are lifted. They are of kind *.
+
+Unlifted type - An unlifted type is a type that cannot be inhabited by bottom. They are
+way less common than lifted types and are of kind #.
