@@ -89,3 +89,20 @@ scope of its surrounding `do` block.
 
 return - return is a function that is used to return a value in IO. For instance, if a
 function has IO Bool the resulting bool value must be passed as an argument to `return`.
+
+-- Follow-up resources --
+
+1. Stack
+   https://gitub.com/commericalhaskell/stack
+
+2. How I Start: Haskell
+   https://bitemyapp.com/posts/2014011018-how-i-start-haskell.html
+
+3. Cabal FAQ
+   https://www.haskell.org/cabal/FAQ.html
+
+4. Cabal user's guide
+   https://www.haskell.org/cabal/users-guide/
+
+5. A Gentle Introduction to Haskell, Modules chapter.
+   https://www.haskell.org/tutorial/modules.html
