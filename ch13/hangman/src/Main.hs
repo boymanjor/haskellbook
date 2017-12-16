@@ -40,30 +40,31 @@ randomWord' :: IO String
 randomWord' = gameWords >>= randomWord
 
 data Puzzle =
-  Puzzle String [Maybe Char] [Char]
+  Puzzle String [Maybe Char] [Char] Int
 
 instance Show Puzzle where
-  show (Puzzle _ discovered guessed) =
+  show (Puzzle word discovered guessed count) =
     (intersperse ' ' $
      fmap renderPuzzleChar discovered)
-    ++ " Guessed so far: " ++ guessed
+    ++ "\nGuessed so far: " ++ guessed
+    ++ "\n# of misses left: " ++ show (length word - count)
 
 freshPuzzle :: String -> Puzzle
-freshPuzzle cs = Puzzle cs (map (const Nothing) cs) []
+freshPuzzle cs = Puzzle cs (map (const Nothing) cs) [] 0
 
 charInWord :: Puzzle -> Char -> Bool
-charInWord (Puzzle cs _ _) c = elem c cs
+charInWord (Puzzle cs _ _ _) c = elem c cs
 
 alreadyGuessed :: Puzzle -> Char -> Bool
-alreadyGuessed (Puzzle _ _ cs) c = elem c cs
+alreadyGuessed (Puzzle _ _ cs _) c = elem c cs
 
 renderPuzzleChar :: Maybe Char -> Char
 renderPuzzleChar Nothing = '_'
 renderPuzzleChar (Just c)  = c
 
-fillInCharacter :: Puzzle -> Char -> Puzzle
-fillInCharacter (Puzzle word filledIn s) c =
-  Puzzle word newFilledIn (c : s)
+fillInCharacter :: Puzzle -> Char -> Bool -> Puzzle
+fillInCharacter (Puzzle word filledIn s count) c goodGuess =
+  Puzzle word newFilledIn (c : s) newCount
   where
     zipper guessed wordChar guessedChar =
       if wordChar == guessed
@@ -71,6 +72,11 @@ fillInCharacter (Puzzle word filledIn s) c =
       else guessedChar
 
     newFilledIn = zipWith (zipper c) word filledIn
+
+    newCount =
+      if goodGuess
+      then count
+      else count + 1
 
 handleGuess :: Puzzle -> Char -> IO Puzzle
 handleGuess puzzle guess = do
@@ -86,15 +92,15 @@ handleGuess puzzle guess = do
       putStrLn "This character was in the\
               \ word, filling in the word\
               \ accordingly"
-      return $ fillInCharacter puzzle guess
+      return $ fillInCharacter puzzle guess True
     (False, _) -> do
       putStrLn "This character wasn't in\
               \ the word, try again."
-      return $ fillInCharacter puzzle guess
+      return $ fillInCharacter puzzle guess False
 
 gameOver :: Puzzle -> IO ()
-gameOver (Puzzle wordToGuess _ guessed) =
-  if (length guessed) > 7 then
+gameOver (Puzzle wordToGuess filledIn guessed count) =
+  if count == (length wordToGuess) && (not $ all isJust filledIn) then
     do putStrLn "You lose!"
        putStrLn $
          "The word was: " ++ wordToGuess
@@ -102,7 +108,7 @@ gameOver (Puzzle wordToGuess _ guessed) =
   else return ()
 
 gameWin :: Puzzle -> IO ()
-gameWin (Puzzle _ filledIn _) =
+gameWin (Puzzle _ filledIn _ _) =
   if all isJust filledIn then
     do putStrLn "You win!"
        exitSuccess
