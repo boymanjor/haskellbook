@@ -1,0 +1,41 @@
+module Exercises where
+
+-- Intermissionn: Check your understanding
+--
+-- import qualified Control.Concurrent as CC
+-- import qualified Control.Concurrent.MVar as MV
+-- import qualified Data.ByteString.Char8 asB
+-- import qualified Data.Locator as DL
+-- import qualified Data.Time.Clock.POSIX as PSX
+-- import qualified Filesystem as FS
+-- import qualified Filesystem.Path.CurrentOS as FPC
+-- import qualified Network.Info as NI
+-- import qualified Safe
+-- import Control.Exception (mask, try) import Control.Monad (forever, when) import Data.Bits
+-- import Data.Bits.Bitwise (fromListBE) import Data.List.Split (chunksOf)
+-- import Database.Blacktip.Types
+-- import System.IO.Unsafe (unsafePerformIO)A
+--
+-- Given the above import list answers:
+--
+-- 1. What functions are being imported from Control.Monad
+--    Answer: forever, when
+--
+-- 2. Which imports are both qualified and imported in their
+--    entirety
+--    Answer: All of the qualified imports
+--
+-- 3. From the name, what doo you suppose importing blacktip's
+--    Types module brings in?
+--    Answer: datatype declarations
+--
+-- 4. a) The type signatur refers to three aliased imports.
+--       What modules are named in those aliases?
+--    Answer: Control.Concurrent, Control.Concurrent.MVar
+--            Filesystem.Path.CurrentOS
+--
+--    b) Which import does FS.writeFile refer to?
+--    Answer: Filesystem
+--
+--    c) Which import did forever come from?
+--    Answer: Control.Monad
