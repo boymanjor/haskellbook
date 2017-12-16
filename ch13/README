@@ -69,6 +69,12 @@ We can also use aliases for our qualified module imports.
   import qualified Data.Bool as B
   --  must use B.bool
 
+It is important to remember that the const function is a good tool for returning
+the same value. It can be used to re-initialize the values of a list.
+
+It is also important to remember the benefits of partial application. It can be
+used to pass args to a function that may need to fit a particular type signature.
+
 -- Terminology & Concepts --
 
 do notation - A `do` block is convenient syntatic sugar that allows for sequencing
