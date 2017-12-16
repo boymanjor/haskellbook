@@ -1,6 +1,10 @@
 module Cipher where
 
+import Control.Monad (forever)
 import Data.Char
+import System.Exit (exitSuccess)
+import System.IO
+import Text.Read
 
 -- let2Int transforms an alphabet character into a 2-tuple representation of its
 -- self. The first value of the tuple is an index in the range [0, 25] which
@@ -32,19 +36,32 @@ shift n c
   where tup = let2Int c
 
 -- ceasar encrypts a message using a right-shifted caesar cipher
--- @param  - Int    - the amount to shift each character of the preimage
--- @param  - String - the preimage
--- @return - String - the ciphertext
-caesar :: Int -> String -> String
-caesar n s = map f s
-  where f = shift n
+caesar :: IO ()
+caesar = forever $ do
+  hSetBuffering stdout NoBuffering
+  putStr "Enter shift amount: "
+  mInt <- getLine
+  case readMaybe mInt :: Maybe Int of
+    Just n -> do
+      putStr "Enter preimage: "
+      preimage <- getLine
+      putStrLn $ map (shift n) preimage
+      exitSuccess
+    Nothing -> putStrLn "Must enter an integer; please try again."
 
 -- unceasar decripts a caesar cipher encrypted message.
--- @param  - Int    - the amount each character was shifted
--- @param  - String - the ciphertext
--- @return - String - the preimage
-uncaesar :: Int -> String -> String
-uncaesar n s = caesar (-n) s
+uncaesar :: IO ()
+uncaesar = forever $ do
+  hSetBuffering stdout NoBuffering
+  putStr "Enter shift amount: "
+  mInt <- getLine
+  case readMaybe mInt :: Maybe Int of
+    Just n -> do
+      putStr "Enter ciphertext: "
+      preimage <- getLine
+      putStrLn $ map (shift (-n)) preimage
+      exitSuccess
+    Nothing -> putStrLn "Must enter an integer; please try again."
 
 -- matchSize resizes the first string argument to match the second's length using
 -- truncation to shrink and duplication to grow.
@@ -57,10 +74,22 @@ matchSize cs target = go cs "" $ length target
       | count < sz = acc ++ take count old
       | otherwise  = go old (acc ++ old) (count - sz)
 
-vigenere :: String -> String -> String
-vigenere ks ps = zipWith f (matchSize ks ps) ps
-  where f = shift . fst . let2Int
+vigenere :: IO ()
+vigenere = do
+  hSetBuffering stdout NoBuffering
+  putStr "Enter key: "
+  ks <- getLine
+  putStr "Enter preimage: "
+  ps <- getLine
+  putStrLn $ zipWith f (matchSize ks ps) ps
+    where f = shift . fst . let2Int 
 
-unvigenere :: String -> String -> String
-unvigenere ks ps = zipWith f (matchSize ks ps) ps
-  where f = shift . negate . fst . let2Int
+unvigenere :: IO ()
+unvigenere = do
+  hSetBuffering stdout NoBuffering
+  putStr "Enter key: "
+  ks <- getLine
+  putStr "Enter preimage: "
+  ps <- getLine
+  putStrLn $ zipWith f (matchSize ks ps) ps
+    where f = shift . negate . fst . let2Int
