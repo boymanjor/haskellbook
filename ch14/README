@@ -4,3 +4,17 @@ Chapter 14: Testing
                                                 - Grace Murray Hopper
 
 -- Notes --
+
+While well-specified types can enable programmers to avoid many obvious and
+tedious tests, there is still value to be obtained in executable specifications.
+Hspec and QuickCheck are two reputable testing libraries that exist in the
+Haskell ecosystem. These deal with spec testing. There is also a Hunit library
+that handles unit testing.
+
+The book proposes two branches of testing: unit and property. Unit testing (and spec)
+assert the correctness of individual functions. Property testing deals with the
+formal properties of program. You define a truth-valued, universally quantified
+function and test it against randomly generated inputs. The QuickCheck library
+facilitates the generation of the random input. It helps a programmer ensure that
+code has met the min. requirements to satisfy laws, e.g. the laws of monads, or
+basic associativity.
