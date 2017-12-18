@@ -18,3 +18,72 @@ function and test it against randomly generated inputs. The QuickCheck library
 facilitates the generation of the random input. It helps a programmer ensure that
 code has met the min. requirements to satisfy laws, e.g. the laws of monads, or
 basic associativity.
+
+Hspec uses `do` blocks to allow assertions on the outputs of functions given specified
+inputs.
+
+The QuickCheck library provides randomly generated inputs (100 by default). It also
+utilizes the `Arbitrary` typeclass and a newtype `Gen` to generate the random data.
+The relevant pieces are:
+
+  arbitrary :: Arbitrary a => Gen a
+  sample  :: Show a => Gen a -> IO ()
+  sample' :: Gen a -> IO [a]
+
+To generate random Int values we could run the following:
+
+  sample (arbitrary :: Gen Int)
+
+   -- or to generate a list
+  sample' (arbitrary :: Gen Int)
+
+Above `arbitrary` is a value used to generate random values. We can specify our own data
+for generating Gen values, e.g
+
+  trivialInt :: Gen Int
+  trivialInt = return 1
+
+Remember that `return` is used to wrap a value with a Monad. In this case `Gen` is said
+Monad.
+
+  return :: Monad m => a -> m a
+
+We can specify many different functions that return `Gen a` values. The QuickCheck provides
+the following functions to help:
+
+  choose :: System.Random.Random a => (a, a) -> Gen a
+  elements :: [a] -> Gen a
+
+To create tuples of `Gen` values we can use the following pattern:
+
+  genTuple :: (Arbitrary a, Arbitrary b) => Gen (a, b)
+  genTuple = do
+    a <- arbitrary
+    b <- arbitrary
+    return (a, b)
+
+  -- add a type assertion on the types of values to inhabit tuple
+  -- the only requirement is that the type have an instance of Arbitrary
+  sample (genTuple :: Gen(Int, Float))
+
+  -- We can also generate Maybe and Either values
+  genEither :: (Arbitrary a, Arbitrary b)
+            => Gen (Either a b)
+  genEither = do
+    a <- arbitrary
+    b <- arbitrary
+    choose (Left a, Right b)
+
+  genMaybe :: Arbitrary a => Gen (Maybe a)
+  genMaybe = do
+    a <- arbitrary
+    choose (Nothing, Just a)
+
+  genMaybe' :: Arbitrary a => Gen (Maybe a)
+  genMaybe' = do
+    a <- arbitrary
+    frequency [ (1, return Nothing)
+              , (3, return (Just a))]
+
+  -- frequency :: [(Int, Gen a)] -> Gen a
+
