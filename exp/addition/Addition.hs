@@ -54,7 +54,7 @@ main = hspec $ do
       2 + 2 `shouldBe` 4
     it "x + 1 is always\
        \ greater than x" $ do
-    property $ \x -> x + 1 > (x :: Int) -- must inclue a type assertion
+        property $ \x -> x + 1 > (x :: Int) -- must inclue a type assertion
 
   describe "Division" $ do
     it "15 divided by 3 is 5" $ do
