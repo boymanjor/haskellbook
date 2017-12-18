@@ -20,11 +20,31 @@ code has met the min. requirements to satisfy laws, e.g. the laws of monads, or
 basic associativity.
 
 Hspec uses `do` blocks to allow assertions on the outputs of functions given specified
-inputs.
+inputs, e.g.
 
-The QuickCheck library provides randomly generated inputs (100 by default). It also
-utilizes the `Arbitrary` typeclass and a newtype `Gen` to generate the random data.
-The relevant pieces are:
+  main :: IO ()
+  main = hspec $ do
+    -- description of tests
+    describe "Addition" $ do
+      -- description of function behavior
+      it "1 + 1 is greater than 1" $ do
+        -- assertion goes here
+        1 + 1 > 1 `shouldBe` True
+
+The QuickCheck library provides randomly generated inputs (100 by default). Again,
+it can be used for property based testing, e.g.
+
+  main :: IO ()
+  main = hspec $ do
+    -- description of tests
+    describe "Addition" $ do
+      -- description of function behavior
+      it "x + 1 should always be greater than x" $ do
+        -- Type assertion tells QuickCheck what types of values to generate.
+        property $ \x -> x + 1 > (x :: Int)
+
+It also utilizes the `Arbitrary` typeclass and a newtype `Gen` to generate the
+random data. The relevant pieces are:
 
   arbitrary :: Arbitrary a => Gen a
   sample  :: Show a => Gen a -> IO ()
@@ -87,3 +107,11 @@ To create tuples of `Gen` values we can use the following pattern:
 
   -- frequency :: [(Int, Gen a)] -> Gen a
 
+We can also use QuickCheck without hspec. If we define a function with a type
+signature we can pass the function to `quickCheck` as an argument.
+
+  prop_additionGreater :: Int -> Bool
+  prop_additionGreater x = x + 1 > x
+
+  runQc :: IO ()
+  runQc = quickCheck prop_additionGreater

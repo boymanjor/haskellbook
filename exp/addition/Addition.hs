@@ -45,6 +45,13 @@ genMaybe' = do
   a <- arbitrary
   frequency [ (1, return Nothing)
             , (3, return (Just a))]
+
+prop_additionGreater :: Int -> Bool
+prop_additionGreater x = x + 1 > x
+
+runQc :: IO ()
+runQc = quickCheck prop_additionGreater
+
 main :: IO ()
 main = hspec $ do
   describe "Addition" $ do
