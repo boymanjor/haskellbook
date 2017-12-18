@@ -2,6 +2,7 @@ module Addition where
 
 import Test.Hspec
 import Test.QuickCheck
+import Test.QuickCheck.Gen (oneof)
 
 dividedBy :: Integral a => a -> a -> (a, a)
 dividedBy num denom = go num denom 0

@@ -115,3 +115,67 @@ signature we can pass the function to `quickCheck` as an argument.
 
   runQc :: IO ()
   runQc = quickCheck prop_additionGreater
+
+An important part of using the QuickCheck library is learning how to write
+instances of the Arbitrary typeclass for your custom datatypes.
+
+  data Trivial =
+    Trivial
+    deriving (Eq, Show)
+
+  trivialGen :: Gen Trivial
+  trivialGen = return Trivial
+
+  instance Arbitrary Trivial where
+    arbitrary = trivialGen
+
+The above is a very trivial example. A more involved example follows:
+
+  import Test.QuickCheck
+  import Test.QuickCheck.Gen (oneof)
+
+  data Sum a b =
+      First a
+    | Second b
+    deriving (Eq, Show)
+
+  sumGen :: (Arbitrary a, Arbitrary b)
+         => Gen (Sum a b)
+
+  sumGen = do
+    a <- arbitrary
+    b <- arbitrary
+    oneof [return $ First a, return $ Second b]
+
+  instance (Arbitrary a, Arbitrary b) => Arbitrary (Sum a b) where
+    arbitrary = sumGen
+
+CoArbitrary is a counterpartto Arbitrary which allows us to generate functions,
+opposed to values.
+
+  coarbitrary :: CoArbitrary a =>
+                 a -> Gen b -> Gen b
+
+As long as a datatype has a Generic instance we can get a CoArbitrary instance for
+free, e.g.
+
+  {-# LANGUAGE DeriveGeneric #-}
+
+  module CoArbitrary where
+
+  import GHC.Generics
+  import Test.QuickCheck
+
+  data Bool' =
+      True'
+    | False'
+    deriving (Generic)
+
+  instance CoArbitrary Bool'
+
+Which allows us to do the following:
+
+  trueGen :: Gen Int
+  trueGen = coarbitrary True' arbitrary
+
+Essentially allowing us to generate random functions.
