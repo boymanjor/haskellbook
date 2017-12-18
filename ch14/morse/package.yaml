@@ -34,7 +34,7 @@ executables:
     - morse
 
 tests:
-  morse-test:
+  tests:
     main:                tests.hs
     source-dirs:         tests
     ghc-options:
