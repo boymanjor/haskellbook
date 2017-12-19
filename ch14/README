@@ -108,7 +108,7 @@ To create tuples of `Gen` values we can use the following pattern:
   -- frequency :: [(Int, Gen a)] -> Gen a
 
 We can also use QuickCheck without hspec. If we define a function with a type
-signature we can pass the function to `quickCheck` as an argument.
+signature resembling an assert we can pass the function to `quickCheck` as an argument.
 
   prop_additionGreater :: Int -> Bool
   prop_additionGreater x = x + 1 > x
