@@ -2,6 +2,7 @@ module UsingQuickCheckTest where
 
 import UsingQuickCheck
 import Test.QuickCheck
+import Test.QuickCheck.Gen (oneof)
 import Text.Show.Functions()
 import Data.List (sort)
 import Data.Char
@@ -109,6 +110,7 @@ prop_idem1 x =
   (capitalizeWord x
   == fourTimes capitalizeWord x)
 
+-- 2.
 prop_idem2 :: String -> Bool
 prop_idem2 x =
   (sort x
@@ -116,6 +118,23 @@ prop_idem2 x =
   &&
   (sort x
   == fourTimes sort x)
+
+-- Make a Gen random generator for the datatype --
+data Fool =
+    Fulse
+  | Frue
+  deriving (Eq, Show)
+
+-- 1.
+-- Equal probabilities for each.
+
+genFool :: Gen Fool
+genFool = oneof [return Fulse, return Frue]
+
+-- 2.
+-- 2/3s chance of Fulse, 1/3 chance of Frue.
+genFoolWeighted :: Gen Fool
+genFoolWeighted = frequency [(2, return Fulse), (1, return Frue)]
 
 main :: IO ()
 main = do
