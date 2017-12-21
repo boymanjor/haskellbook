@@ -16,5 +16,6 @@ Chapter 11: Algebraic datatypes
 Chapter 12: Signaling adversity
 Chapter 13: Building projects
 Chapter 14: Testing
+Chapter 15: Monoid, Semigroup
 
 [1]: http://haskellbook.com/
