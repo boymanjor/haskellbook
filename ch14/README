@@ -179,3 +179,28 @@ Which allows us to do the following:
   trueGen = coarbitrary True' arbitrary
 
 Essentially allowing us to generate random functions.
+
+-- Terminology & Concepts --
+
+Unit testing - A method of testing in which the smallest parts of an application
+are tested individually.
+
+Property testing - A method of testing in which a subset of a larger input space
+is validated. Usually, this subset is validated against a property or law the
+code should abide by. Typical properties to test include: identity, associativity,
+isomorphish, idempotence, etc.
+
+Idempotence - Idempotence describes a property of functions in which multiple applications
+of the function will result in the same outcome as one application, e.g. addition by zero.
+
+-- Follow-up resources --
+
+1. Pedro Vasconcelos; An introduction to QuickCheck testing;
+   https://www.fpcomplete.com/user/pbv/an-introduction-to-quickcheck-testing
+
+2. Koen Claessen and John Hughes; (2000)
+   QuickCheck: A Lightweight Tool for Random Testing of Haskell Programs
+
+3. Pedro Vasconcelos; Verifying a Simple Compiler Using Property-based
+   Random Testing
+   http://www.dcc.fc.up.pt/dcc/Pubs/TReports/TR13/dcc-2013-06.pdf
