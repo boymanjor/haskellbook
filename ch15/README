@@ -1,3 +1,22 @@
 Chapter 15: Monoid, Semigroup
 
 "Simplicity does not precede complexity, but follows it" - Alan Perlis
+
+-- Notes --
+
+W.r.t to Haskell, an algebra refers to some operations and the set they operate
+over. These algebras can be implemented with typeclasses. The instances define
+the operations and the sets in which they operate over are the types. A monoid
+is a binary associative operation with an identity. This is one of the
+aforementioned algebras. It is codified by the `Monoid` typeclass. `mappend`
+acts as the operator and `mempty` as its identity element.
+
+class Monoid m where
+  mempty  :: m
+  mappend :: m -> m -> m
+  mconcat :: [m] -> m
+  mconcat = foldr mappend mempty
+
+Its helpful to think of the appending operation not as a way of combining values in
+the set, but as a way to condense a set of values to a summary value. Monoids are a
+great pattern to use when processing data in parallel.
